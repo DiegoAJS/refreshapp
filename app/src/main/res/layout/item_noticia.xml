@@ -35,10 +35,9 @@
         android:layout_marginTop="8dp"
         android:maxLines="1"
         android:textSize="14sp"
-        android:text="fecha del actividad"
+        android:text="Text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateItemNoticia"
-        tools:layout_editor_absoluteX="214dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateItemNoticia" />
 
     <Button
         android:id="@+id/material_buttonNoticia"

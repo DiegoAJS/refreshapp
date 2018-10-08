@@ -3,16 +3,14 @@ package org.developerjs.refreshapp
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
-import org.developerjs.refreshapp.util.adapter.AdapterFragments
-import org.developerjs.refreshapp.util.fragment.ActividadFragment
-import org.developerjs.refreshapp.util.fragment.CircularFragment
-import org.developerjs.refreshapp.util.fragment.NoticiaFragment
+import org.developerjs.refreshapp.ui.adapter.AdapterFragments
+import org.developerjs.refreshapp.ui.fragment.ActividadFragment
+import org.developerjs.refreshapp.ui.fragment.CircularFragment
+import org.developerjs.refreshapp.ui.fragment.NoticiaFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var pagerAdapter: AdapterFragments
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

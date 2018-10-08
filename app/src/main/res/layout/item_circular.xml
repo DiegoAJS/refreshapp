@@ -32,12 +32,11 @@
         android:id="@+id/tvContentItemCircular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
+        android:maxLines="3"
+        android:text="text"
         android:textSize="14sp"
-        android:text="fecha del actividad"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateItemCircular" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateItemCircular"/>
 
     <Button
         android:id="@+id/material_buttonCircular"

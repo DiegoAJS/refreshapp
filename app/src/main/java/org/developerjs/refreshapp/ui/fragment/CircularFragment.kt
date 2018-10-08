@@ -1,4 +1,4 @@
-package org.developerjs.refreshapp.util.fragment
+package org.developerjs.refreshapp.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
