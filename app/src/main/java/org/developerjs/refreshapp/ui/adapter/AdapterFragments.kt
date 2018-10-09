@@ -3,7 +3,6 @@ package org.developerjs.refreshapp.ui.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import org.developerjs.refreshapp.interfaces.OnSelectPage
 
 class AdapterFragments (fragmentManager:FragmentManager) : FragmentPagerAdapter(fragmentManager){
 

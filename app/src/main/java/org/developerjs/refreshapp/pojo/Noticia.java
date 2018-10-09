@@ -1,6 +1,7 @@
 package org.developerjs.refreshapp.pojo;
 
-public class Noticia {
+public class Noticia extends Item{
+
     private String titulo ;
     private String fecha;
     private String contenido;

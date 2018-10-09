@@ -1,6 +1,6 @@
 package org.developerjs.refreshapp.pojo;
 
-public class Circular {
+public class Circular extends Item {
     private String titulo;
     private String fecha;
     private String contenido;

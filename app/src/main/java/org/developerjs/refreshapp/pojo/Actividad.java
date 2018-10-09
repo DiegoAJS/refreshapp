@@ -1,6 +1,6 @@
 package org.developerjs.refreshapp.pojo;
 
-public class Actividad {
+public class Actividad extends Item {
     private String titulo;
     private String fecha;
     private String fecha_actividad;
