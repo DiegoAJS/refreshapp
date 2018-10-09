@@ -37,7 +37,7 @@ public class ActividadAdapter extends FirestoreAdapter<ActividadAdapter.ViewHold
         Log.d("TAG",String.valueOf(position));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView mTitulo;
         TextView mFecha;

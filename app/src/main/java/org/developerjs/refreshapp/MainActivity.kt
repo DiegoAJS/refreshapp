@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
 import kotlinx.android.synthetic.main.activity_main.*
-import org.developerjs.refreshapp.interfaces.OnSelectPage
 import org.developerjs.refreshapp.ui.adapter.AdapterFragments
-import org.developerjs.refreshapp.ui.fragment.ActividadFragment
-import org.developerjs.refreshapp.ui.fragment.CircularFragment
-import org.developerjs.refreshapp.ui.fragment.NoticiaFragment
+import org.developerjs.refreshapp.ui.fragment.GenericFargment
+
 
 class MainActivity : AppCompatActivity() {
-
 
 
     lateinit var pagerAdapter: AdapterFragments
@@ -31,7 +28,18 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_notifications -> {
                 //message.setText(R.string.title_notifications)
-                viewpager_main.currentItem=2
+                //viewpager_main.currentItem=2
+                //val detail=Detail()
+                //detail.titulo="titulos"
+                //detail.contenido="contenido"
+                //detail.fecha="fecha hoy"
+                //detail.fecha_actividad="fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad "
+                //detail.video="video"
+                //detail.foto="https://estaticos.elperiodico.com/resources/jpg/6/8/ciencia-del-universo-1530540262286.jpg"
+
+                //val intent = DetailActivity.newIntent(this, detail)
+                //startActivity(intent)
+
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -43,9 +51,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         pagerAdapter = AdapterFragments(supportFragmentManager)
-        pagerAdapter.addFragment(NoticiaFragment())
-        pagerAdapter.addFragment(ActividadFragment())
-        pagerAdapter.addFragment(CircularFragment())
+        pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_NOTICIA))
+        pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_ACTIVIDAD))
+        pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_CIRCULAR))
         viewpager_main.adapter = pagerAdapter
 
         navigation_main.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
