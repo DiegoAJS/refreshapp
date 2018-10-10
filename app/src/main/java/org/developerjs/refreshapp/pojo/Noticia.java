@@ -1,9 +1,13 @@
 package org.developerjs.refreshapp.pojo;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+
 public class Noticia extends Item{
 
     private String titulo ;
-    private String fecha;
+    private Date fecha;
     private String contenido;
     private String video;
     private String foto;
@@ -11,7 +15,7 @@ public class Noticia extends Item{
     public Noticia() {
     }
 
-    public Noticia(String titulo, String fecha, String contenido, String video, String foto) {
+    public Noticia(String titulo, Date fecha, String contenido, String video, String foto) {
         this.titulo = titulo;
         this.fecha = fecha;
         this.contenido = contenido;
@@ -27,11 +31,11 @@ public class Noticia extends Item{
         this.titulo = titulo;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

@@ -5,6 +5,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.item_noticia.view.*
 import org.developerjs.refreshapp.interfaces.ItemClickListener
 import org.developerjs.refreshapp.pojo.Noticia
+import java.text.SimpleDateFormat
 
 class NoticiaHolder(itemView: View, var listener: ItemClickListener):RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
@@ -21,7 +22,9 @@ class NoticiaHolder(itemView: View, var listener: ItemClickListener):RecyclerVie
         with(noticia!!) {
             itemView.tvTitleItemNoticia.text = noticia.titulo
             itemView.tvContentItemNoticia.text = noticia.contenido
-            itemView.tvDateItemNoticia.text = noticia.fecha
+            val format = SimpleDateFormat("EEE, d MMM yyyy")
+
+            itemView.tvDateItemNoticia.text = format.format(noticia.fecha)
         }
     }
 }

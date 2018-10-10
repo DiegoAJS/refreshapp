@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.developerjs.refreshapp.R;
+import org.developerjs.refreshapp.ui.control.ItemControl;
 
 public class GenericFargment extends Fragment {
 
@@ -25,7 +26,9 @@ public class GenericFargment extends Fragment {
     public static final int FRAGMENT_CIRCULAR       = 2;
     public static final int FRAGMENT_NOTICIA        = 3;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    private ItemControl itemControl=new ItemControl();
 
     public static GenericFargment newInstance(int fragmentMenu) {
         GenericFargment fragment = new GenericFargment();
@@ -36,6 +39,7 @@ public class GenericFargment extends Fragment {
     }
 
     public GenericFargment(){
+
     }
 
     @Override
@@ -44,40 +48,11 @@ public class GenericFargment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         // Ubicar argumento en el text view de section_fragment.xml
         switch (getArguments().getInt(FRAGMENT_MENU)){
-            case FRAGMENT_NOTICIA: initNoticia();break;
-            case FRAGMENT_CIRCULAR : initCircular(); break;
-            case FRAGMENT_ACTIVIDAD: initActividad(); break;
+            case FRAGMENT_NOTICIA: itemControl.setupFragment(getActivity(),view,getFragmentManager(),"noticias");break;
+            //case FRAGMENT_ACTIVIDAD: itemControl.setupFragment(getActivity(),view,getFragmentManager(),"actividad");break;
+            //case FRAGMENT_CIRCULAR : itemControl.setupFragment(getActivity(),view,getFragmentManager(),"circular");break;
         }
         return view;
-    }
-
-
-    public void initNoticia(){
-
-        db.collection("noticias")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-
-    }
-
-    public void initCircular(){
-
-    }
-
-    public void initActividad(){
-
     }
 
 }
