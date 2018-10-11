@@ -43,18 +43,19 @@ import java.util.List;
 
 public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
 
+    public static String TAG = ItemControl.class.getSimpleName();
+
     private Context context;
     private RecyclerView recycler;
     private FragmentManager fragmentManager;
     private SwipeRefreshLayout refreshLayout;
     private String ruta;
 
-    public static String TAG = ItemControl.class.getSimpleName();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private int LIMIT=5;
 
     private Query next;
-
     private AdapterItem adapter;
     private List<Item> items = new ArrayList<Item>();
 
@@ -108,7 +109,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
         if(items.isEmpty()){
             next = db.collection(ruta)
                     .orderBy("fecha",Query.Direction.DESCENDING)
-                    .limit(2);
+                    .limit(LIMIT);
             cargar();
         }
     }
@@ -122,6 +123,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
         }
 
         next.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 dismissCargando();
@@ -138,7 +140,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                     next = db.collection(ruta)
                             .orderBy("fecha",Query.Direction.DESCENDING)
                             .startAfter(lastVisible)
-                            .limit(2);
+                            .limit(LIMIT);
 
                 }else
                 {

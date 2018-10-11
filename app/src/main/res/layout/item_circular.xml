@@ -1,53 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    style="@style/CardView.Light"
+    android:elevation="8dp">
 
 
+<TextView
+    android:id="@+id/tvtitleItemCircular"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxLines="1"
+    android:text="titulo"
+    android:textSize="16sp"
+    android:fontFamily="@font/poppinsbold"
+    android:layout_alignParentLeft="true"/>
 
-    <TextView
-        android:id="@+id/tvTitleItemCircular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="title"/>
+<TextView
+    android:id="@+id/tvDateItemActividad"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxLines="1"
+    android:text="fecha"
+    android:textSize="12sp"
+    android:layout_below="@+id/tvtitleItemCircular"
+    android:layout_alignParentLeft="true"
+    />
 
-    <TextView
-        android:id="@+id/tvDateItemCircular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date"
-        android:maxLines="1"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleItemCircular" />
+    <ImageView
+        android:id="@+id/fotoItemCircular"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:scaleType="centerCrop"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/android"
+        android:layout_below="@+id/tvDateItemActividad"/>
 
-    <TextView
-        android:id="@+id/tvContentItemCircular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="3"
-        android:text="text"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateItemCircular"/>
 
-    <Button
-        android:id="@+id/material_buttonCircular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Leer mas"
-        android:theme="@style/PrimaryFlatButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContentItemCircular">
+<TextView
+    android:id="@+id/tvContentItemCircular"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:maxLines="4"
+    android:text="contenido"
+    android:textSize="14sp"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/fotoItemCircular"/>
 
-    </Button>
+<TextView
+    android:id="@+id/tvDateItemCircular"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:maxLines="2"
+    android:text="fecha de la circular"
+    android:textSize="14sp"
+    android:drawableLeft="@drawable/ic_access_time"
+    android:layout_below="@+id/tvContentItemCircular"
+    android:layout_alignParentLeft="true"/>
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>
+

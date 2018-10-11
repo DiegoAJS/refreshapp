@@ -13,9 +13,12 @@ import org.developerjs.refreshapp.interfaces.ItemClickListener;
 import org.developerjs.refreshapp.interfaces.OnLoadMoreListener;
 import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.pojo.Circular;
+import org.developerjs.refreshapp.pojo.Detail;
 import org.developerjs.refreshapp.pojo.Footer;
 import org.developerjs.refreshapp.pojo.Item;
 import org.developerjs.refreshapp.pojo.Noticia;
+import org.developerjs.refreshapp.ui.activity.DetailActivity;
+import org.developerjs.refreshapp.ui.activity.DetailsActivity;
 import org.developerjs.refreshapp.ui.holder.ActividadHolder;
 import org.developerjs.refreshapp.ui.holder.CircularHolder;
 import org.developerjs.refreshapp.ui.holder.NoticiaHolder;
@@ -99,24 +102,23 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onItemClick(View view, int position) {
-        String titulo,subtitulo,imagen,descripcion;
+
+        Detail detail=null;
 
         switch (getItemViewType(position))
         {
-            case TYPE_ACTIVIDAD:;break;
+            case TYPE_ACTIVIDAD:
+                detail = ((Actividad)items.get(position)).getDetail();break;
 
-            case TYPE_CIRCULAR:break;
+            case TYPE_CIRCULAR:
+                detail = ((Circular)items.get(position)).getDetail();break;
 
-            case TYPE_NOTICIA:;break;
+            case TYPE_NOTICIA:
+                detail = ((Noticia)items.get(position)).getDetail();break;
 
-            /*case TYPE_TRABAJO:
-                titulo=Trabajo.class.getSimpleName();
-                subtitulo=((Trabajo) items.get(position)).getTitulo();
-                imagen="";
-                descripcion=((Trabajo) items.get(position)).getDescripcion();
-
-                DetalleActivity.createInstance(context,titulo,subtitulo,imagen,descripcion);break;*/
         }
+        if (detail!=null)
+            DetailsActivity.createInstance(context,detail);
     }
 
     public void setMoreDataAvailable(boolean moreDataAvailable) {

@@ -1,19 +1,17 @@
 package org.developerjs.refreshapp.pojo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Circular extends Item {
+
     private String titulo;
-    private String fecha;
+    private Date fecha_publicacion;
+    private Date fecha_circular;
     private String contenido;
     private String foto;
 
     public Circular() {
-    }
-
-    public Circular(String titulo, String fecha, String contenido, String foto) {
-        this.titulo = titulo;
-        this.fecha = fecha;
-        this.contenido = contenido;
-        this.foto = foto;
     }
 
     public String getTitulo() {
@@ -24,12 +22,20 @@ public class Circular extends Item {
         this.titulo = titulo;
     }
 
-    public String getFecha() {
-        return fecha;
+    public Date getFecha_publicacion() {
+        return fecha_publicacion;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setFecha_publicacion(Date fecha_publicacion) {
+        this.fecha_publicacion = fecha_publicacion;
+    }
+
+    public Date getFecha_circular() {
+        return fecha_circular;
+    }
+
+    public void setFecha_circular(Date fecha_circular) {
+        this.fecha_circular = fecha_circular;
     }
 
     public String getContenido() {

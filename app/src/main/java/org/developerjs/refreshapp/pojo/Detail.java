@@ -1,5 +1,7 @@
 package org.developerjs.refreshapp.pojo;
 
+import java.util.Date;
+
 public class Detail {
 
     private String titulo;
@@ -29,21 +31,6 @@ public class Detail {
         this.titulo = titulo;
     }
 
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getFecha_actividad() {
-        return fecha_actividad;
-    }
-
-    public void setFecha_actividad(String fecha_actividad) {
-        this.fecha_actividad = fecha_actividad;
-    }
 
     public String getContenido() {
         return contenido;
@@ -67,5 +54,21 @@ public class Detail {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getFecha_actividad() {
+        return fecha_actividad;
+    }
+
+    public void setFecha_actividad(String fecha_actividad) {
+        this.fecha_actividad = fecha_actividad;
     }
 }

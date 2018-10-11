@@ -43,6 +43,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:15.0.0'
     implementation 'com.google.firebase:firebase-firestore:15.0.0'
 
+    //extra
+    implementation 'com.alexvasilkov:gesture-views:2.5.2'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

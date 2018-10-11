@@ -1,51 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    style="@style/CardView.Light"
+    android:elevation="8dp">
+
 
     <TextView
-        android:id="@+id/tvTitleItemActividad"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvByItemActividad"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
+        android:text="Organizador"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="title"/>
+        android:fontFamily="@font/poppinsbold"
+        android:layout_alignParentLeft="true"/>
 
     <TextView
         android:id="@+id/tvDateItemActividad"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="date"
         android:maxLines="1"
+        android:text="fecha"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleItemActividad" />
+        android:layout_below="@+id/tvByItemActividad"
+        android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/tvTitleItemActividad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_marginTop="12dp"
+        android:textSize="32sp"
+        android:text="title"
+        android:fontFamily="@font/poppinsbold"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvDateItemActividad"/>
 
     <TextView
         android:id="@+id/tvContentItemActividad"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
+        android:layout_marginTop="6dp"
+        android:maxLines="4"
+        android:text="contenido"
         android:textSize="14sp"
-        android:text="fecha del actividad"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateItemActividad" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvTitleItemActividad"/>
 
-    <Button
-        android:id="@+id/material_buttonActividad"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvPleaceItemActividad"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Leer mas"
-        android:theme="@style/PrimaryFlatButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContentItemActividad">
+        android:maxLines="2"
+        android:text="luggar"
+        android:textSize="14sp"
+        android:drawableLeft="@drawable/ic_place"
+        android:layout_below="@+id/tvContentItemActividad"
+        android:layout_alignParentLeft="true"/>
 
-    </Button>
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

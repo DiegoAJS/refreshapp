@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.developerjs.refreshapp.R
@@ -37,9 +38,9 @@ class DetailActivity : AppCompatActivity() {
             tvTextDetail.text=mContenido
 
         if (mVideo.length>0)
-            floatingActionButton.isEnabled=true
+            //floatingActionButton.visibility = View.VISIBLE
         else
-            floatingActionButton.isEnabled=false
+            //floatingActionButton.isEnabled=false
 
         if (mFoto.length>0)
             Glide.with(this)

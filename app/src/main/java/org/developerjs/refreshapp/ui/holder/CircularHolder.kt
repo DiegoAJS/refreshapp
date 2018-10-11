@@ -5,6 +5,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.item_circular.view.*
 import org.developerjs.refreshapp.interfaces.ItemClickListener
 import org.developerjs.refreshapp.pojo.Circular
+import java.text.SimpleDateFormat
 
 
 class CircularHolder(itemView: View, var listener: ItemClickListener):RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -19,9 +20,10 @@ class CircularHolder(itemView: View, var listener: ItemClickListener):RecyclerVi
     }
     fun bindCircular(circular: Circular?) {
         with(circular!!) {
+            val format = SimpleDateFormat("EEE, d MMM yyyy")
             itemView.tvTitleItemCircular.text = circular.titulo
             itemView.tvContentItemCircular.text = circular.contenido
-            itemView.tvDateItemCircular.text = circular.fecha
+            itemView.tvDateItemCircular.text = format.format(circular.fecha)
         }
     }
 }
