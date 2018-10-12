@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"/>
 
     <TextView
-        android:id="@+id/tvDateItemActividad"
+        android:id="@+id/tvFechaItemActividad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -40,10 +40,10 @@
         android:text="title"
         android:fontFamily="@font/poppinsbold"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tvDateItemActividad"/>
+        android:layout_below="@+id/tvFechaItemActividad"/>
 
     <TextView
-        android:id="@+id/tvContentItemActividad"
+        android:id="@+id/tvContenitdoItemActividad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -62,7 +62,7 @@
         android:text="luggar"
         android:textSize="14sp"
         android:drawableLeft="@drawable/ic_place"
-        android:layout_below="@+id/tvContentItemActividad"
+        android:layout_below="@+id/tvContenitdoItemActividad"
         android:layout_alignParentLeft="true"/>
 
 

@@ -17,7 +17,7 @@
         android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/tvDateItemNoticia"
+        android:id="@+id/tvFechaItemNoticia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="date"
@@ -26,7 +26,7 @@
         android:layout_below="@+id/tvFuenteItemNoticia"/>
 
     <TextView
-        android:id="@+id/tvTitleItemNoticia"
+        android:id="@+id/tvTitulosItemNoticia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
@@ -34,7 +34,7 @@
         android:textSize="32dp"
         android:textStyle="bold"
         android:text="title"
-        android:layout_below="@+id/tvDateItemNoticia"/>
+        android:layout_below="@+id/tvFechaItemNoticia"/>
 
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="contenido"
-        android:layout_below="@+id/tvTitleItemNoticia"/>
+        android:layout_below="@+id/tvTitulosItemNoticia"/>
 
 
 

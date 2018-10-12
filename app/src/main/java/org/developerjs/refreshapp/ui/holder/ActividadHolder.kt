@@ -24,9 +24,12 @@ class ActividadHolder (itemView: View, var listener: ItemClickListener):Recycler
         with(actividad!!) {
             val format = SimpleDateFormat("EEE, d MMM yyyy")
 
-            itemView.tvTitleItemActividad.text = actividad.titulo
-            itemView.tvContentItemActividad.text = format.format(actividad.fecha_actividad)
-            itemView.tvDateItemActividad.text = format.format(actividad.fecha)
+            itemView.tvByItemActividad.text = actividad.organizador
+
+            itemView.tvFechaItemActividad.text = format.format(actividad.update)
+            itemView.tvTitleItemActividad.text = format.format(actividad.titulo)
+            itemView.tvContenitdoItemActividad.text=actividad.contenido
+            itemView.tvPleaceItemActividad.text=actividad.lugar
         }
     }
 }

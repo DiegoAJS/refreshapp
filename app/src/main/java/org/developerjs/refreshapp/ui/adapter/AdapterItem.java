@@ -87,9 +87,9 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         switch (getItemViewType(position)){
-            case TYPE_ACTIVIDAD:((ActividadHolder)holder).bindActividad((Actividad) items.get(position));break;
-            case TYPE_CIRCULAR:((CircularHolder)holder).bindCircular((Circular) items.get(position));break;
-            case TYPE_NOTICIA: ((NoticiaHolder)holder).bindNoticia((Noticia) items.get(position));break;
+            //case TYPE_ACTIVIDAD:((ActividadHolder)holder).bindActividad((Actividad) items.get(position));break;
+            //case TYPE_CIRCULAR:((CircularHolder)holder).bindCircular((Circular) items.get(position));break;
+            //case TYPE_NOTICIA: ((NoticiaHolder)holder).bindNoticia((Noticia) items.get(position));break;
 
         }
 
@@ -108,13 +108,13 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (getItemViewType(position))
         {
             case TYPE_ACTIVIDAD:
-                detail = ((Actividad)items.get(position)).getDetail();break;
+                //detail = ((Actividad)items.get(position)).getDetail();break;
 
             case TYPE_CIRCULAR:
-                detail = ((Circular)items.get(position)).getDetail();break;
+                //detail = ((Circular)items.get(position)).getDetail();break;
 
             case TYPE_NOTICIA:
-                detail = ((Noticia)items.get(position)).getDetail();break;
+                //detail = ((Noticia)items.get(position)).getDetail();break;
 
         }
         if (detail!=null)

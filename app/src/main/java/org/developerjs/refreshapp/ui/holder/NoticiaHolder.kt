@@ -22,10 +22,10 @@ class NoticiaHolder(itemView: View, var listener: ItemClickListener):RecyclerVie
         with(noticia!!) {
             val format = SimpleDateFormat("EEE, d MMM yyyy")
 
-            itemView.tvTitleItemNoticia.text = noticia.titulo
+            itemView.tvFuenteItemNoticia.text = noticia.fuente
+            itemView.tvFechaItemNoticia.text = format.format(noticia.update)
+            itemView.tvTitulosItemNoticia.text = noticia.titulo
             itemView.tvContentItemNoticia.text = noticia.contenido
-
-            itemView.tvDateItemNoticia.text = format.format(noticia.fecha)
         }
     }
 }

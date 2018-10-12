@@ -8,11 +8,12 @@ import java.util.Date;
 public class Noticia extends Item{
 
     private String titulo ;
-    private Date fecha;
     private String fuente;
     private String contenido;
     private String video;
     private String foto;
+    private Date create;
+    private Date update;
 
     public Noticia() {
     }
@@ -23,14 +24,6 @@ public class Noticia extends Item{
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public String getFuente() {
@@ -63,5 +56,21 @@ public class Noticia extends Item{
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public Date getCreate() {
+        return create;
+    }
+
+    public void setCreate(Date create) {
+        this.create = create;
+    }
+
+    public Date getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Date update) {
+        this.update = update;
     }
 }

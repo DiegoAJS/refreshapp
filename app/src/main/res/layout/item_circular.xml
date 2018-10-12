@@ -10,7 +10,7 @@
 
 
 <TextView
-    android:id="@+id/tvtitleItemCircular"
+    android:id="@+id/tvTituloItemCircular"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:maxLines="1"
@@ -20,13 +20,13 @@
     android:layout_alignParentLeft="true"/>
 
 <TextView
-    android:id="@+id/tvDateItemActividad"
+    android:id="@+id/tvFechaItemCicular"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:maxLines="1"
     android:text="fecha"
     android:textSize="12sp"
-    android:layout_below="@+id/tvtitleItemCircular"
+    android:layout_below="@+id/tvTituloItemCircular"
     android:layout_alignParentLeft="true"
     />
 
@@ -36,12 +36,12 @@
         android:layout_height="230dp"
         android:scaleType="centerCrop"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/android"
-        android:layout_below="@+id/tvDateItemActividad"/>
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_below="@+id/tvFechaItemCicular"/>
 
 
 <TextView
-    android:id="@+id/tvContentItemCircular"
+    android:id="@+id/tvContenidoItemCircular"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="6dp"
@@ -60,7 +60,7 @@
     android:text="fecha de la circular"
     android:textSize="14sp"
     android:drawableLeft="@drawable/ic_access_time"
-    android:layout_below="@+id/tvContentItemCircular"
+    android:layout_below="@+id/tvContenidoItemCircular"
     android:layout_alignParentLeft="true"/>
 
 

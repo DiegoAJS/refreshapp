@@ -24,6 +24,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.interfaces.OnLoadMoreListener;
+import org.developerjs.refreshapp.pojo.Actividad;
+import org.developerjs.refreshapp.pojo.Circular;
+import org.developerjs.refreshapp.pojo.Comunidad;
 import org.developerjs.refreshapp.pojo.Footer;
 import org.developerjs.refreshapp.pojo.Item;
 import org.developerjs.refreshapp.pojo.Noticia;
@@ -45,12 +48,18 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
 
     public static String TAG = ItemControl.class.getSimpleName();
 
+    public final static int TYPE_ACTIVIDAD      =1;
+    public final static int TYPE_CIRCULAR       =2;
+    public final static int TYPE_NOTICIA        =3;
+    public final static int TYPE_COMUNIDADES    =4;
+
     private Context context;
     private RecyclerView recycler;
     private FragmentManager fragmentManager;
     private SwipeRefreshLayout refreshLayout;
-    private String ruta;
 
+    private String ruta;
+    private int type;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private int LIMIT=5;
@@ -61,7 +70,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
 
     public ItemControl() { }
 
-    public void setupFragment(Context c, View v, FragmentManager f, String ruta){
+    public void setupFragment(Context c, View v, FragmentManager f, int type){
 
         this.context=c;
         this.fragmentManager=f;
@@ -69,7 +78,14 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
         recycler=(RecyclerView)v.findViewById(R.id.reciclador);
         refreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.sr_cargando);
 
-        this.ruta=ruta;
+        this.type=type;
+        switch (type){
+            case TYPE_ACTIVIDAD: ruta="actividades";break;
+            case TYPE_CIRCULAR: ruta="circulares";break;
+            case TYPE_NOTICIA: ruta="noticias";break;
+            case TYPE_COMUNIDADES: ruta="comunidades";break;
+        }
+
         inicializar();
     }
 
@@ -108,7 +124,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
 
         if(items.isEmpty()){
             next = db.collection(ruta)
-                    .orderBy("fecha",Query.Direction.DESCENDING)
+                    .orderBy("update",Query.Direction.DESCENDING)
                     .limit(LIMIT);
             cargar();
         }
@@ -138,7 +154,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                     // Construct a new query starting at this document,
                     // get the next 25 cities.
                     next = db.collection(ruta)
-                            .orderBy("fecha",Query.Direction.DESCENDING)
+                            .orderBy("update",Query.Direction.DESCENDING)
                             .startAfter(lastVisible)
                             .limit(LIMIT);
 
@@ -147,13 +163,25 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                     adapter.setMoreDataAvailable(false);
                 }
 
+
                 for(DocumentSnapshot document : documentSnapshots.getDocuments()){
                     Log.d(TAG, document.getId()+" => " + document.getData().toString());
 
                     if (document.exists()) {
                         // convert document to POJO
-                        Noticia pojo = document.toObject(Noticia.class);
-                        items.add(pojo);
+                        if (TYPE_ACTIVIDAD==type){
+                            Actividad actividad = document.toObject(Actividad.class);
+                            items.add(actividad);
+                        }else if (TYPE_CIRCULAR==type){
+                            Circular circular = document.toObject(Circular.class);
+                            items.add(circular);
+                        }else if (TYPE_NOTICIA==type){
+                            Noticia noticia = document.toObject(Noticia.class);
+                            items.add(noticia);
+                        }else if (TYPE_COMUNIDADES==type){
+                            Comunidad comunidad = document.toObject(Comunidad.class);
+                            items.add(comunidad);
+                        }
                     }
                 }
                 adapter.notifyDataChanged();
