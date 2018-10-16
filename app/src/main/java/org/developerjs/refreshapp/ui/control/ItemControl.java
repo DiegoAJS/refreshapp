@@ -3,41 +3,30 @@ package org.developerjs.refreshapp.ui.control;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.interfaces.OnLoadMoreListener;
 import org.developerjs.refreshapp.pojo.Actividad;
-import org.developerjs.refreshapp.pojo.Circular;
-import org.developerjs.refreshapp.pojo.Comunidad;
+import org.developerjs.refreshapp.pojo.Grupo;
 import org.developerjs.refreshapp.pojo.Footer;
 import org.developerjs.refreshapp.pojo.Item;
 import org.developerjs.refreshapp.pojo.Noticia;
 import org.developerjs.refreshapp.ui.adapter.AdapterItem;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,9 +38,8 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
     public static String TAG = ItemControl.class.getSimpleName();
 
     public final static int TYPE_ACTIVIDAD      =1;
-    public final static int TYPE_CIRCULAR       =2;
+    public final static int TYPE_GRUPO          =2;
     public final static int TYPE_NOTICIA        =3;
-    public final static int TYPE_COMUNIDADES    =4;
 
     private Context context;
     private RecyclerView recycler;
@@ -81,9 +69,8 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
         this.type=type;
         switch (type){
             case TYPE_ACTIVIDAD: ruta="actividades";break;
-            case TYPE_CIRCULAR: ruta="circulares";break;
+            case TYPE_GRUPO: ruta="grupos";break;
             case TYPE_NOTICIA: ruta="noticias";break;
-            case TYPE_COMUNIDADES: ruta="comunidades";break;
         }
 
         inicializar();
@@ -113,6 +100,10 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
             }
         });
 
+
+        recycler.addItemDecoration(new DividerItemDecoration(recycler.getContext(),
+                DividerItemDecoration.VERTICAL));
+
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(context));
         recycler.setAdapter(adapter);
@@ -121,6 +112,8 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
         // Seteamos los colores que se usarán a lo largo de la animación
         refreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
         refreshLayout.setOnRefreshListener(this);
+
+
 
         if(items.isEmpty()){
             next = db.collection(ruta)
@@ -147,7 +140,7 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                 cancelar();
                 // Get the last visible document
 
-                if(documentSnapshots.size()>1){
+                if(documentSnapshots.size()>0){
                     DocumentSnapshot lastVisible = documentSnapshots.getDocuments()
                             .get(documentSnapshots.size() -1);
 
@@ -172,36 +165,19 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                         if (TYPE_ACTIVIDAD==type){
                             Actividad actividad = document.toObject(Actividad.class);
                             items.add(actividad);
-                        }else if (TYPE_CIRCULAR==type){
-                            Circular circular = document.toObject(Circular.class);
-                            items.add(circular);
-                        }else if (TYPE_NOTICIA==type){
+                        }else if (TYPE_GRUPO==type){
+                            Grupo grupo = document.toObject(Grupo.class);
+                            items.add(grupo);
+                        }else if (TYPE_NOTICIA==type) {
                             Noticia noticia = document.toObject(Noticia.class);
                             items.add(noticia);
-                        }else if (TYPE_COMUNIDADES==type){
-                            Comunidad comunidad = document.toObject(Comunidad.class);
-                            items.add(comunidad);
                         }
                     }
                 }
                 adapter.notifyDataChanged();
-                //queryDocumentSnapshots.toObjects(Noticia.class);
 
             }
         });
-
-
-
-        /*
-        for (int i = 0 ; i<10; i++){
-            Noticia noticia = new Noticia();
-            noticia.setTitulo("noticias real "+i);
-            noticia.setContenido("contenido fake");
-            noticia.setFecha("hoy");
-            noticia.setFoto("foto");
-            noticia.setVideo("video");
-            items.add(noticia);
-        }*/
 
     }
 
@@ -226,42 +202,6 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
 
     public void dismissCargando(){
         refreshLayout.setRefreshing(false);
-    }
-
-
-    public void getDialogo(){
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-        // set title
-        alertDialogBuilder.setTitle("Alerta");
-
-        //alertDialogBuilder.setIcon(R.drawable.ic_error_outline_24dp);
-
-        // set dialog message
-        alertDialogBuilder
-                .setMessage("Oh no. Error de conexion intentar de nuevo ?")
-                .setCancelable(false)
-                .setPositiveButton("Si",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        showCargando();
-                        cargar();
-                    }
-                })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        dialog.cancel();
-                    }
-                });
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
     }
 
 }

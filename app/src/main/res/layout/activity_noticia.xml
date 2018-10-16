@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_circular"
+        android:id="@+id/toolbar_noticia"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -27,7 +28,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvTituloActividad"
+                android:id="@+id/tvTituloNoticia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="titulo"
@@ -35,22 +36,34 @@
                 android:fontFamily="@font/poppinsbold"/>
 
             <TextView
-                android:id="@+id/tvFechaPublicacionActividad"
+                android:id="@+id/tvFuenteNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fuente"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvFechaPublicacionNoticia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="fecha"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_gravity="right"/>
+
             <TextView
-                android:id="@+id/tvFechaCircularActividad"
+                android:id="@+id/tvVideoNoticia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="fecha de la circular"
-                android:drawableLeft="@drawable/ic_calendario"
-                android:drawablePadding="6dp"/>
+                android:text="Video"
+                android:textAlignment="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
             <TextView
-                android:id="@+id/tvContenidoActividad"
+                android:id="@+id/tvContenidoNoticia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="contenido"
@@ -58,7 +71,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <com.alexvasilkov.gestures.views.GestureImageView
-                android:id="@+id/ivFotoCircular"
+                android:id="@+id/ivFotoNoticia"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@android:drawable/ic_menu_gallery" />

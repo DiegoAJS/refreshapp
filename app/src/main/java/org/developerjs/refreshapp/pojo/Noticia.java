@@ -2,10 +2,11 @@ package org.developerjs.refreshapp.pojo;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Noticia extends Item{
+public class Noticia extends Item implements Serializable {
 
     private String titulo ;
     private String fuente;
@@ -72,5 +73,18 @@ public class Noticia extends Item{
 
     public void setUpdate(Date update) {
         this.update = update;
+    }
+
+    @Override
+    public String toString() {
+        return "Noticia{" +
+                "titulo='" + titulo + '\'' +
+                ", fuente='" + fuente + '\'' +
+                ", contenido='" + contenido + '\'' +
+                ", video='" + video + '\'' +
+                ", foto='" + foto + '\'' +
+                ", create=" + create +
+                ", update=" + update +
+                '}';
     }
 }

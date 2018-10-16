@@ -16,30 +16,18 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
+            R.id.navigation_noticias-> {
                 //message.setText(R.string.title_home)
                 viewpager_main.currentItem=0
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
+            R.id.navigation_actividades-> {
                 //message.setText(R.string.title_dashboard)
                 viewpager_main.currentItem=1
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                //message.setText(R.string.title_notifications)
-                //viewpager_main.currentItem=2
-                //val detail=Detail()
-                //detail.titulo="titulos"
-                //detail.contenido="contenido"
-                //detail.fecha="fecha hoy"
-                //detail.fecha_actividad="fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad fecha actividad "
-                //detail.video="video"
-                //detail.foto="https://estaticos.elperiodico.com/resources/jpg/6/8/ciencia-del-universo-1530540262286.jpg"
-
-                //val intent = DetailActivity.newIntent(this, detail)
-                //startActivity(intent)
-
+            R.id.navigation_grupos-> {
+                viewpager_main.currentItem=3
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -53,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         pagerAdapter = AdapterFragments(supportFragmentManager)
         pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_NOTICIA))
         pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_ACTIVIDAD))
-        pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_CIRCULAR))
+        pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_GRUPO))
         viewpager_main.adapter = pagerAdapter
 
         navigation_main.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -77,9 +65,9 @@ class MainActivity : AppCompatActivity() {
 
     public fun navigationItemSelected(n:Int){
         when(n){
-            0-> navigation_main.selectedItemId=R.id.navigation_home
-            1-> navigation_main.selectedItemId=R.id.navigation_dashboard
-            2-> navigation_main.selectedItemId=R.id.navigation_notifications
+            0-> navigation_main.selectedItemId=R.id.navigation_noticias
+            1-> navigation_main.selectedItemId=R.id.navigation_actividades
+            2-> navigation_main.selectedItemId=R.id.navigation_grupos
 
         }
     }

@@ -1,13 +1,10 @@
 package org.developerjs.refreshapp.ui.holder
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.item_actividad.view.*
-import kotlinx.android.synthetic.main.item_circular.view.*
 import org.developerjs.refreshapp.interfaces.ItemClickListener
 import org.developerjs.refreshapp.pojo.Actividad
-import org.developerjs.refreshapp.pojo.Circular
 import java.text.SimpleDateFormat
 
 class ActividadHolder (itemView: View, var listener: ItemClickListener):RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -22,14 +19,17 @@ class ActividadHolder (itemView: View, var listener: ItemClickListener):Recycler
     }
     fun bindActividad( actividad: Actividad?) {
         with(actividad!!) {
-            val format = SimpleDateFormat("EEE, d MMM yyyy")
+            val formatHora = SimpleDateFormat("HH:mm")
+            val formatMes = SimpleDateFormat("MMM")
 
             itemView.tvByItemActividad.text = actividad.organizador
 
-            itemView.tvFechaItemActividad.text = format.format(actividad.update)
-            itemView.tvTitleItemActividad.text = format.format(actividad.titulo)
+            itemView.tvDiaItemActividad.text = actividad.fecha_actividad.day.toString()
+            itemView.tvMesItemActividad.text = formatMes.format(actividad.fecha_actividad)
+            itemView.tvHoraItemActividad.text = formatHora.format(actividad.fecha_actividad)
+            itemView.tvTitleItemActividad.text = actividad.titulo
             itemView.tvContenitdoItemActividad.text=actividad.contenido
-            itemView.tvPleaceItemActividad.text=actividad.lugar
+            itemView.tvTipoItemActividad.text=actividad.tipo_actividad
         }
     }
 }

@@ -74,4 +74,13 @@ public class IntentUtiles {
 
     }
 
+    public static void intentMap(Context context,String latLng){
+        Uri gmmIntentUri = Uri.parse("geo:"+latLng+"?z=18");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(mapIntent);
+        }
+    }
+
 }

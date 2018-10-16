@@ -23,7 +23,7 @@ public class GenericFargment extends Fragment {
 
     public static String FRAGMENT_MENU              = "fragment.menu";
     public static final int FRAGMENT_ACTIVIDAD      = 1;
-    public static final int FRAGMENT_CIRCULAR       = 2;
+    public static final int FRAGMENT_GRUPO          = 2;
     public static final int FRAGMENT_NOTICIA        = 3;
 
 
@@ -48,9 +48,9 @@ public class GenericFargment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         // Ubicar argumento en el text view de section_fragment.xml
         switch (getArguments().getInt(FRAGMENT_MENU)){
-            case FRAGMENT_NOTICIA: itemControl.setupFragment(getActivity(),view,getFragmentManager(),"noticias");break;
-            //case FRAGMENT_ACTIVIDAD: itemControl.setupFragment(getActivity(),view,getFragmentManager(),"actividad");break;
-            //case FRAGMENT_CIRCULAR : itemControl.setupFragment(getActivity(),view,getFragmentManager(),"circular");break;
+            case FRAGMENT_ACTIVIDAD: itemControl.setupFragment(getActivity(),view,getFragmentManager(),ItemControl.TYPE_ACTIVIDAD);break;
+            case FRAGMENT_GRUPO: itemControl.setupFragment(getActivity(),view,getFragmentManager(),ItemControl.TYPE_GRUPO);break;
+            case FRAGMENT_NOTICIA: itemControl.setupFragment(getActivity(),view,getFragmentManager(),ItemControl.TYPE_NOTICIA);break;
         }
         return view;
     }
