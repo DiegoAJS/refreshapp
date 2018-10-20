@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 
 public class DetailsGrupoActivity extends AppCompatActivity {
 
-    public static final String TAG = DetailsGrupoActivity.class.getSimpleName().toLowerCase();
+    public static final String TAG = DetailsGrupoActivity.class.getSimpleName();
 
     public static final String ACTIVITY_GRUPO = "DetailsGrupoActivity.grupo";
 
@@ -79,43 +79,47 @@ public class DetailsGrupoActivity extends AppCompatActivity {
             });
         }
 
-        if(grupo.getSocial().getFacebook()!=null){
-            mFacebook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IntentUtiles.intentWeb(context,grupo.getSocial().getFacebook());
-                }
-            });
+        if(grupo.getSocial()!=null){
+
+            if(grupo.getSocial().getFacebook()!=null){
+                mFacebook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtiles.intentWeb(context,grupo.getSocial().getFacebook());
+                    }
+                });
+            }else
+                mFacebook.setVisibility(View.GONE);
+
+            if(grupo.getSocial().getTwitter()!=null){
+                mTwitter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtiles.intentWeb(context,grupo.getSocial().getTwitter());
+                    }
+                });
+            }else
+                mTwitter.setVisibility(View.GONE);
+
+            if(grupo.getSocial().getInstagram()!=null){
+                mInstagram.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtiles.intentWeb(context,grupo.getSocial().getInstagram());
+                    }
+                });
+            }else
+                mInstagram.setVisibility(View.GONE);
+
+            if(grupo.getSocial().getWhatsapp()!=null){
+                mWhatsapp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtiles.intentWeb(context,grupo.getSocial().getWhatsapp());
+                    }
+                });
+            }else
+                mWhatsapp.setVisibility(View.GONE);
         }
-
-        if(grupo.getSocial().getTwitter()!=null){
-            mTwitter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IntentUtiles.intentWeb(context,grupo.getSocial().getTwitter());
-                }
-            });
-        }
-
-        if(grupo.getSocial().getInstagram()!=null){
-            mInstagram.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IntentUtiles.intentWeb(context,grupo.getSocial().getInstagram());
-                }
-            });
-        }
-        if(grupo.getSocial().getWhatsapp()!=null){
-            mWhatsapp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IntentUtiles.intentWeb(context,grupo.getSocial().getWhatsapp());
-                }
-            });
-        }
-
-
-
-
     }
 }
