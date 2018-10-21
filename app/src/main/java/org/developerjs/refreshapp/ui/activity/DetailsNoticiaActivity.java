@@ -3,6 +3,7 @@ package org.developerjs.refreshapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.pojo.Noticia;
+import org.developerjs.refreshapp.ui.dialog.ZoomDialog;
 import org.developerjs.refreshapp.util.IntentUtiles;
 
 import java.text.SimpleDateFormat;
@@ -24,11 +26,14 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
 
     public static final String ACTIVITY_NOTICIA = "DetailsNoticiaActivity.noticia";
 
-    private TextView mTitulo,mFuente,mContenido,mFechaPublicacion,mVideo;
+    private TextView mTitulo,mFuente,mContenido,mFechaPublicacion;
+    private FloatingActionButton mFloatingActionButtonVideo;
     private ImageView mFoto;
 
     private Noticia noticia;
     private Context context=this;
+
+    private ZoomDialog zoomDialog;
 
     public static void createInstance(Context context, Noticia noticia) {
         Intent intent = getLaunchIntent(context,noticia);
@@ -48,6 +53,8 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_noticia);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) // Habilitar up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         noticia = (Noticia) getIntent().getSerializableExtra(ACTIVITY_NOTICIA);
 
@@ -56,7 +63,7 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
         mFechaPublicacion   =(TextView)findViewById(R.id.tvFechaPublicacionNoticia);
         mContenido          =(TextView) findViewById(R.id.tvContenidoNoticia);
         mFoto               =(ImageView) findViewById(R.id.ivFotoNoticia);
-        mVideo              =(TextView)findViewById(R.id.tvVideoNoticia);
+        mFloatingActionButtonVideo=(FloatingActionButton) findViewById(R.id.floatingActionButtonVideoNoticia);
 
         setTitle("Detalle Noticia");
 
@@ -74,20 +81,29 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
         mContenido.setText(noticia.getContenido());
         mFechaPublicacion.setText(format.format(noticia.getUpdate()));
 
-        if (noticia.getFoto()!=null)
+        if (noticia.getFoto()!=null){
             Glide.with(this).load(noticia.getFoto()).into(mFoto);
+            zoomDialog = ZoomDialog.getInstanceDialog(noticia.getFoto());
+            mFoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    zoomDialog.show(getSupportFragmentManager(),TAG);
+                }
+            });
+
+        }
         else
             mFoto.setVisibility(View.GONE);
 
         if (noticia.getVideo()!=null){
-            mVideo.setOnClickListener(new View.OnClickListener() {
+            mFloatingActionButtonVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     IntentUtiles.intentWeb(context,noticia.getVideo());
                 }
             });
         }else {
-            mVideo.setVisibility(View.GONE);
+            mFloatingActionButtonVideo.setVisibility(View.GONE);
         }
     }
 }

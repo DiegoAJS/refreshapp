@@ -2,7 +2,9 @@ package org.developerjs.refreshapp.pojo;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public class Actividad extends Item implements Serializable {
 
@@ -13,6 +15,7 @@ public class Actividad extends Item implements Serializable {
     private String localizacion;
     private String tipo_actividad;
     private Date fecha_actividad;
+    private String link;
     private String video;
     private String foto;
 
@@ -62,6 +65,14 @@ public class Actividad extends Item implements Serializable {
         this.lugar = lugar;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public String getVideo() {
         return video;
     }
@@ -109,4 +120,6 @@ public class Actividad extends Item implements Serializable {
     public void setLocalizacion(String localizacion) {
         this.localizacion = localizacion;
     }
+
+
 }

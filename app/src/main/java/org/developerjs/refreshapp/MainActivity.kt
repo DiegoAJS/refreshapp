@@ -4,9 +4,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.ViewPager
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import org.developerjs.refreshapp.ui.adapter.AdapterFragments
 import org.developerjs.refreshapp.ui.fragment.GenericFargment
+import com.google.firebase.iid.FirebaseInstanceId
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -61,6 +65,12 @@ class MainActivity : AppCompatActivity() {
                 navigationItemSelected(position)
             }
         })
+
+        //val token = FirebaseInstanceId.getInstance().token
+
+        //Log.d("MainActivity_Token", "Token: " + token!!)
+
+
     }
 
     public fun navigationItemSelected(n:Int){
