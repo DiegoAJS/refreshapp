@@ -25,6 +25,7 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
     public static final String TAG = DetailsNoticiaActivity.class.getSimpleName();
 
     public static final String ACTIVITY_NOTICIA = "DetailsNoticiaActivity.noticia";
+    public static final String ACTIVITY_NOTICIA_ID = "DetailsNoticiaActivity.noticia.id";
 
     private TextView mTitulo,mFuente,mContenido,mFechaPublicacion;
     private FloatingActionButton mFloatingActionButtonVideo;
@@ -43,6 +44,12 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
     public static Intent getLaunchIntent(Context context,Noticia noticia) {
         Intent intent = new Intent(context, DetailsNoticiaActivity.class);
         intent.putExtra(ACTIVITY_NOTICIA,noticia);
+        return intent;
+    }
+
+    public static Intent getLaunchIntent(Context context,String id) {
+        Intent intent = new Intent(context, DetailsNoticiaActivity.class);
+        intent.putExtra(ACTIVITY_NOTICIA,id);
         return intent;
     }
 

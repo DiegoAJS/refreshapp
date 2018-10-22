@@ -10,8 +10,13 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import org.developerjs.refreshapp.MainActivity;
 import org.developerjs.refreshapp.R;
@@ -29,6 +34,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
+import java.util.Map;
+
 
 public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -38,9 +45,10 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
 
-    private final static int NOTIFICACION_NOTICIA=1;
-    private final static int NOTIFICACION_ACTIVIDAD=2;
-    private final static int NOTIFICACION_GRUPO=3;
+    private String type;
+    private String id;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -50,44 +58,42 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Mensaje recibido de: " + from);
 
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getBody());
-
-            mostrarNotificacion(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getTitle()+", "+remoteMessage.getNotification().getBody());
         }
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Data: " + remoteMessage.getData());
+
+            type=remoteMessage.getData().get("type");
+            id=remoteMessage.getData().get("id");
+            getObject();
+            //setPendingIntent(remoteMessage.getData().get("id"),remoteMessage.getData().get("type"));
+            //createNotificationChannel();
+            //createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
-
     }
 
-    private void mostrarNotificacion(String title, String body) {
+    private void setPendingIntent(String type,String id){
 
-        setPendingIntent(NOTIFICACION_NOTICIA);
-        createNotificationChannel();
-        createNotification(title,body);
 
-    }
 
-    private void setPendingIntent(int type){
 
-        Intent intent;
+
         TaskStackBuilder stackBuilder;
-        switch (type){
-            case NOTIFICACION_NOTICIA:
-                intent = DetailsNoticiaActivity.getLaunchIntent(this,new Noticia());
-                stackBuilder = TaskStackBuilder.create(this);
-                stackBuilder.addParentStack(DetailsNoticiaActivity.class);break;
-            case NOTIFICACION_ACTIVIDAD:
-                intent = DetailsActividadActivity.getLaunchIntent(this,new Actividad());
-                stackBuilder = TaskStackBuilder.create(this);
-                stackBuilder.addParentStack(DetailsActividadActivity.class);break;
-            default:
-                intent = DetailsGrupoActivity.getLaunchIntent(this,new Grupo());
-                stackBuilder = TaskStackBuilder.create(this);
-                stackBuilder.addParentStack(DetailsGrupoActivity.class);break;
-
+        if(type.equals("noticias")){
+            intent = DetailsNoticiaActivity.getLaunchIntent(getApplicationContext(),id);
+            stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addParentStack(DetailsNoticiaActivity.class);
+        }else if(type.equals("actividades")){
+            intent = DetailsActividadActivity.getLaunchIntent(getApplicationContext(),id);
+            stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addParentStack(DetailsActividadActivity.class);
+        }else {
+            intent = DetailsGrupoActivity.getLaunchIntent(getApplicationContext(),id);
+            stackBuilder = TaskStackBuilder.create(getApplicationContext());
+            stackBuilder.addParentStack(DetailsGrupoActivity.class);
         }
+        stackBuilder.addNextIntent(intent);
         pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -102,7 +108,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     private void createNotification(String titulo,String text){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_noticias_white);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(titulo);
         builder.setContentText(text);
         builder.setColor(Color.BLUE);
@@ -117,5 +123,25 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
 
+    public void getObject(){
+        DocumentReference docRef = db.collection(type).document(id);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+                if(type.equals("noticias")){
+                    Noticia noticia = documentSnapshot.toObject(Noticia.class);
+                    Intent intent = DetailsNoticiaActivity.getLaunchIntent(getApplicationContext(),noticia);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addParentStack(DetailsNoticiaActivity.class);
+                    stackBuilder.addNextIntent(intent);
+                    pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+                }else if(type.equals("actividades")){
+                    Actividad actividad = documentSnapshot.toObject(Actividad.class);
+                }else {
+                    Noticia noticia= documentSnapshot.toObject(Noticia.class);
+                }
+            }
+        });
+    }
 }
