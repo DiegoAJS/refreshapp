@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="8dp">
+
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvFuenteItemNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fuente"
+                android:textColor="@color/colorMutedForte" />
+
+            <TextView
+                android:id="@+id/tvPuntoItemNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp"
+                android:text="•"
+                android:textColor="@color/colorMutedForte" />
+
+            <TextView
+                android:id="@+id/tvFechaItemNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fecha"
+                android:textColor="@color/colorMuted"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitulosItemNoticia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:fontFamily="@font/poppinsbold"
+            android:textColor="@color/colorBlackBlue"
+            android:text="Titulo"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/tvContentItemNoticia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contenido"
+            android:textColor="@color/colorMutedForte"
+            android:maxLines="3"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvDetalleItemNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seguir leyendo"
+                android:textStyle="bold"
+                android:textColor="@color/colorGreen"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

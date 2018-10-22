@@ -30,6 +30,7 @@
             android:fontFamily="@font/poppinsbold"
             android:text="titulo"
             android:textSize="24dp"
+            android:textColor="@color/colorBlackBlue"
             />
 
         <TextView
@@ -48,8 +49,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:textStyle="bold"
-            android:text="Ver detalle"
-            android:textColor="@color/colorPrimaryDark"
+            android:text="Ver detalles"
+            android:textColor="@color/colorGreen"
             android:layout_below="@+id/tvDescripcionItemGrupo"/>
 
     </RelativeLayout>
