@@ -82,9 +82,10 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
             actividad.setLugar("en algun lugar");
             actividad.setLink("www.face.com");*/
 
-            setPendingIntentActividad(actividad);
-            createNotificationChannel();
-            createNotification();
+            //setPendingIntentActividad(actividad);
+            //createNotificationChannel();
+            //createNotification();
+            getObject();
         }
     }
 
@@ -121,5 +122,27 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+    }
+
+    private void getObject(){
+
+        DocumentReference docRef = db.collection(type).document(id);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(type.equals("actividades")){
+                    Actividad actividad= documentSnapshot.toObject(Actividad.class);
+                    setPendingIntentActividad(actividad);
+                    createNotificationChannel();
+                    createNotification();
+                }else if(type.equals("grupos")){
+                    Grupo grupo= documentSnapshot.toObject(Grupo.class);
+                }else if(type.equals("noticias")){
+                    Noticia noticia= documentSnapshot.toObject(Noticia.class);
+                }
+
+            }
+        });
+
     }
 }
