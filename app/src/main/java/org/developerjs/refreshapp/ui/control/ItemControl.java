@@ -23,6 +23,7 @@ import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.pojo.Grupo;
 import org.developerjs.refreshapp.pojo.Footer;
 import org.developerjs.refreshapp.pojo.Item;
+import org.developerjs.refreshapp.pojo.ItemFirst;
 import org.developerjs.refreshapp.pojo.Noticia;
 import org.developerjs.refreshapp.ui.adapter.AdapterItem;
 
@@ -156,6 +157,12 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
                     adapter.setMoreDataAvailable(false);
                 }
 
+                if(items.isEmpty())
+                {
+                    ItemFirst itemFirst=new ItemFirst();
+                    itemFirst.setTitle(ruta);
+                    items.add(itemFirst);
+                }
 
                 for(DocumentSnapshot document : documentSnapshots.getDocuments()){
                     Log.d(TAG, document.getId()+" => " + document.getData().toString());

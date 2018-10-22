@@ -15,12 +15,14 @@ import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.pojo.Grupo;
 import org.developerjs.refreshapp.pojo.Footer;
 import org.developerjs.refreshapp.pojo.Item;
+import org.developerjs.refreshapp.pojo.ItemFirst;
 import org.developerjs.refreshapp.pojo.Noticia;
 import org.developerjs.refreshapp.ui.activity.DetailsActividadActivity;
 import org.developerjs.refreshapp.ui.activity.DetailsGrupoActivity;
 import org.developerjs.refreshapp.ui.activity.DetailsNoticiaActivity;
 import org.developerjs.refreshapp.ui.holder.ActividadHolder;
 import org.developerjs.refreshapp.ui.holder.GrupoHolder;
+import org.developerjs.refreshapp.ui.holder.ItemFirstHolder;
 import org.developerjs.refreshapp.ui.holder.NoticiaHolder;
 
 import java.util.List;
@@ -37,6 +39,7 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_NOTICIA       = 1;
     private static final int TYPE_ACTIVIDAD     = 2;
     private static final int TYPE_GRUPO         = 3;
+    private static final int TYPE_ITEM_FIRST    = 4;
 
     public AdapterItem(@NonNull List<Item> items, Context context) {
         this.items = items;
@@ -51,6 +54,8 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return TYPE_ACTIVIDAD;
         } else if (items.get(position) instanceof Grupo) {
             return TYPE_GRUPO;
+        } else if(items.get(position) instanceof ItemFirst){
+            return TYPE_ITEM_FIRST;
         } else if(items.get(position) instanceof Footer){
             return TYPE_FOOTER;
         }else
@@ -70,6 +75,8 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 viewHolder = new GrupoHolder(inflater.inflate(R.layout.item_grupo,parent,false),this);break;
             case TYPE_NOTICIA:
                 viewHolder = new NoticiaHolder(inflater.inflate(R.layout.item_noticia,parent,false),this);break;
+            case TYPE_ITEM_FIRST:
+                viewHolder = new ItemFirstHolder(inflater.inflate(R.layout.item_first,parent,false),this);break;
             case TYPE_FOOTER:
                 viewHolder =  new LoadHolder(inflater.inflate(R.layout.item_load,parent,false));break;
 
@@ -90,9 +97,8 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case TYPE_ACTIVIDAD:((ActividadHolder)holder).bindActividad((Actividad) items.get(position));break;
             case TYPE_GRUPO:((GrupoHolder)holder).bindCircular(context,(Grupo) items.get(position));break;
             case TYPE_NOTICIA: ((NoticiaHolder)holder).bindNoticia((Noticia) items.get(position));break;
-
+            case TYPE_ITEM_FIRST: ((ItemFirstHolder)holder).bindNoticia((ItemFirst) items.get(position));break;
         }
-
     }
 
     @Override

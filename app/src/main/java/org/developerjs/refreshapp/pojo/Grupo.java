@@ -1,7 +1,10 @@
 package org.developerjs.refreshapp.pojo;
 
+import android.util.ArrayMap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +15,7 @@ public class Grupo extends Item implements Serializable {
     private String nombre;
     private String descripcion;
     private String celular;
-    private ArrayList<Map<String,String>> social;
+    private Social social;
     private Date create;
     private Date update;
 
@@ -51,14 +54,6 @@ public class Grupo extends Item implements Serializable {
         this.celular = celular;
     }
 
-    public ArrayList<Map<String, String>> getSocial() {
-        return social;
-    }
-
-    public void setSocial(ArrayList<Map<String, String>> social) {
-        this.social = social;
-    }
-
     public Date getCreate() {
         return create;
     }
@@ -75,5 +70,11 @@ public class Grupo extends Item implements Serializable {
         this.update = update;
     }
 
+    public Social getSocial() {
+        return social;
+    }
 
+    public void setSocial(Social social) {
+        this.social = social;
+    }
 }

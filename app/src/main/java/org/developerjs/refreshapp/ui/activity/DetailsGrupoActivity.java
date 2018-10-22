@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -19,7 +20,7 @@ import org.developerjs.refreshapp.util.IntentUtiles;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-public class DetailsGrupoActivity extends AppCompatActivity {
+public class DetailsGrupoActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = DetailsGrupoActivity.class.getSimpleName();
 
@@ -30,6 +31,7 @@ public class DetailsGrupoActivity extends AppCompatActivity {
 
     private Grupo grupo;
     private Context context=this;
+    private String linkFacebook,linkTwitter,linkInstagram,linkWhatsapp;
 
     public static void createInstance(Context context, Grupo grupo) {
         Intent intent = getLaunchIntent(context,grupo);
@@ -72,6 +74,11 @@ public class DetailsGrupoActivity extends AppCompatActivity {
 
         Glide.with(this).load(grupo.getFoto()).into(mFoto);
 
+        mFacebook.setOnClickListener(this);
+        mTwitter.setOnClickListener(this);
+        mInstagram.setOnClickListener(this);
+        mWhatsapp.setOnClickListener(this);
+
         if (grupo.getCelular()!=null){
             mCelular.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,48 +90,46 @@ public class DetailsGrupoActivity extends AppCompatActivity {
 
         if(grupo.getSocial()!=null){
 
-            for (final Map<String,String> map:grupo.getSocial()){
-                if(map.containsKey("facebook")){
-                    mFacebook.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IntentUtiles.intentWeb(context,map.get("facebook"));
-                        }
-                    });
-                }else
-                    mFacebook.setVisibility(View.GONE);
+            if(grupo.getSocial().getFacebook()!=null){
+                linkFacebook = grupo.getSocial().getFacebook();
+            }else
+                mFacebook.setVisibility(View.GONE);
 
-                if(map.containsKey("twitter")){
-                    mTwitter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IntentUtiles.intentWeb(context,map.get("twitter"));
-                        }
-                    });
-                }else
-                    mTwitter.setVisibility(View.GONE);
+            if(grupo.getSocial().getTwitter()!=null){
+                linkTwitter=grupo.getSocial().getTwitter();
+            }else
+                mTwitter.setVisibility(View.GONE);
 
-                if(map.containsKey("instagram")){
-                    mInstagram.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IntentUtiles.intentWeb(context,map.get("instagram"));
-                        }
-                    });
-                }else
-                    mInstagram.setVisibility(View.GONE);
+            if(grupo.getSocial().getInstagram()!=null){
+                linkInstagram=grupo.getSocial().getInstagram();
+            }else
+                mInstagram.setVisibility(View.GONE);
 
-                if(map.containsKey("whatsapp")){
-                    mWhatsapp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IntentUtiles.intentWeb(context,map.get("whatsapp"));
-                        }
-                    });
-                }else
-                    mWhatsapp.setVisibility(View.GONE);
-            }
+            if(grupo.getSocial().getWhatsapp()!=null){
+                linkWhatsapp = grupo.getSocial().getWhatsapp();
+            }else
+                mWhatsapp.setVisibility(View.GONE);
+        }else {
+            mFacebook.setVisibility(View.GONE);
+            mTwitter.setVisibility(View.GONE);
+            mInstagram.setVisibility(View.GONE);
+            mWhatsapp.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ivFacebookGrupo:
+                IntentUtiles.intentWeb(context,linkFacebook);break;
+            case R.id.ivTwitterGrupo:
+                IntentUtiles.intentWeb(context,linkTwitter);break;
+            case R.id.ivInstagramGrupo:
+                IntentUtiles.intentWeb(context,linkInstagram);break;
+            case R.id.ivWhatsappGrupo:
+                IntentUtiles.intentWeb(context,linkWhatsapp);break;
+
+        }
     }
 }
