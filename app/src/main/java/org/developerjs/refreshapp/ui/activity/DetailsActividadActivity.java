@@ -57,11 +57,6 @@ public class DetailsActividadActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent getLaunchIntent(Context context,String id) {
-        Intent intent = new Intent(context, DetailsActividadActivity.class);
-        intent.putExtra(ACTIVITY_ACTIVIDAD_ID,id);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +68,7 @@ public class DetailsActividadActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) // Habilitar up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID)!=null){
-            //getActividad(getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID));
-            Log.d(TAG,getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID));
-        }else {
-            actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
-            update();
-        }
+        actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
 
         mTitulo=(TextView)findViewById(R.id.tvTituloActividad);
         mDia=(TextView)findViewById(R.id.tvDiaActividad);
@@ -102,6 +91,7 @@ public class DetailsActividadActivity extends AppCompatActivity {
 
         setTitle("Detalle actividad");
 
+        update();
 
     }
 

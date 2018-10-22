@@ -34,6 +34,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
+import java.util.Date;
 import java.util.Map;
 
 
@@ -47,6 +48,8 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     private String type;
     private String id;
+    private String title;
+    private String body;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -59,6 +62,8 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getTitle()+", "+remoteMessage.getNotification().getBody());
+            title   =remoteMessage.getNotification().getTitle();
+            body    =remoteMessage.getNotification().getBody();
         }
 
         if (remoteMessage.getData().size() > 0) {
@@ -66,33 +71,28 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
             type=remoteMessage.getData().get("type");
             id=remoteMessage.getData().get("id");
-            getObject();
-            //setPendingIntent(remoteMessage.getData().get("id"),remoteMessage.getData().get("type"));
-            //createNotificationChannel();
-            //createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+
+            /*Actividad actividad = new Actividad();
+            actividad.setContenido("contenido x");
+            actividad.setTitulo("titulo x");
+            actividad.setCreate(new Date());
+            actividad.setUpdate(new Date());
+            actividad.setOrganizador("organiza x");
+            actividad.setFecha_actividad(new Date());
+            actividad.setLugar("en algun lugar");
+            actividad.setLink("www.face.com");*/
+
+            setPendingIntentActividad(actividad);
+            createNotificationChannel();
+            createNotification();
         }
     }
 
-    private void setPendingIntent(String type,String id){
-
-
-
-
-
-        TaskStackBuilder stackBuilder;
-        if(type.equals("noticias")){
-            intent = DetailsNoticiaActivity.getLaunchIntent(getApplicationContext(),id);
-            stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addParentStack(DetailsNoticiaActivity.class);
-        }else if(type.equals("actividades")){
-            intent = DetailsActividadActivity.getLaunchIntent(getApplicationContext(),id);
-            stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addParentStack(DetailsActividadActivity.class);
-        }else {
-            intent = DetailsGrupoActivity.getLaunchIntent(getApplicationContext(),id);
-            stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addParentStack(DetailsGrupoActivity.class);
-        }
+    private void setPendingIntentActividad(Actividad actividad){
+        Intent intent = new Intent(this, DetailsActividadActivity.class);
+        intent.putExtra(DetailsActividadActivity.ACTIVITY_ACTIVIDAD,actividad);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(DetailsActividadActivity.class);
         stackBuilder.addNextIntent(intent);
         pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -106,42 +106,20 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(String titulo,String text){
+    private void createNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle(titulo);
-        builder.setContentText(text);
+        builder.setContentTitle(title);
+        builder.setContentText(body);
         builder.setColor(Color.BLUE);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.MAGENTA, 1000, 1000);
-        builder.setVibrate(new long[]{1000,1000,1000,});
+        builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
         builder.setDefaults(Notification.DEFAULT_SOUND);
 
         builder.setContentIntent(pendingIntent);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
-    }
-
-    public void getObject(){
-        DocumentReference docRef = db.collection(type).document(id);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                if(type.equals("noticias")){
-                    Noticia noticia = documentSnapshot.toObject(Noticia.class);
-                    Intent intent = DetailsNoticiaActivity.getLaunchIntent(getApplicationContext(),noticia);
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-                    stackBuilder.addParentStack(DetailsNoticiaActivity.class);
-                    stackBuilder.addNextIntent(intent);
-                    pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
-                }else if(type.equals("actividades")){
-                    Actividad actividad = documentSnapshot.toObject(Actividad.class);
-                }else {
-                    Noticia noticia= documentSnapshot.toObject(Noticia.class);
-                }
-            }
-        });
     }
 }
