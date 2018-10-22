@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tvByItemActividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Organizador" />
@@ -39,7 +39,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/tvDiaItemActividad"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:fontFamily="@font/poppinsbold"
@@ -50,7 +50,7 @@
                         android:textSize="50sp" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/tvMesItemActividad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinsbold"
@@ -61,7 +61,7 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/tvHoraItemActividad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinsbold"
@@ -78,7 +78,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/tvTitleItemActividad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppinsbold"
@@ -87,7 +87,7 @@
                         android:textSize="25sp" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/tvContenitdoItemActividad"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ven al mejor evento de Javascript "
@@ -103,7 +103,6 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    style="@style/CardView.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
@@ -131,7 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_below="@+id/tvContenitdoItemActividad"
                         android:layout_marginTop="8dp"
                         android:layout_weight="0.2"
                         android:paddingBottom="4dp"
