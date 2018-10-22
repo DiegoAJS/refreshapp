@@ -51,9 +51,9 @@ public class ItemControl implements SwipeRefreshLayout.OnRefreshListener {
     private int type;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private Query next;
     private int LIMIT=5;
 
-    private Query next;
     private AdapterItem adapter;
     private List<Item> items = new ArrayList<Item>();
 

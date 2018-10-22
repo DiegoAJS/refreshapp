@@ -7,11 +7,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.pojo.Actividad;
@@ -23,9 +29,10 @@ import java.text.SimpleDateFormat;
 
 public class DetailsActividadActivity extends AppCompatActivity {
 
-    public static final String TAG = DetailsActividadActivity.class.getSimpleName().toLowerCase();
+    public static final String TAG = DetailsActividadActivity.class.getSimpleName();
 
-    public static final String ACTIVITY_ACTIVIDAD          = "DetailsActividadActivity.actividad";
+    public static final String ACTIVITY_ACTIVIDAD           = "DetailsActividadActivity.actividad";
+    public static final String ACTIVITY_ACTIVIDAD_ID        = "DetailsActividadActivity.actividad.id";
 
     private TextView mTitulo,mDia,mMes,mHora, mContenido,mDireccion,mLink,mFechaPublicacion,mOrganizador;
     private ImageView mFoto;
@@ -37,6 +44,8 @@ public class DetailsActividadActivity extends AppCompatActivity {
 
     private ZoomDialog zoomDialog;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     public static void createInstance(Context context, Actividad actividad) {
         Intent intent = getLaunchIntent(context,actividad);
         context.startActivity(intent);
@@ -45,6 +54,12 @@ public class DetailsActividadActivity extends AppCompatActivity {
     public static Intent getLaunchIntent(Context context,Actividad actividad) {
         Intent intent = new Intent(context, DetailsActividadActivity.class);
         intent.putExtra(ACTIVITY_ACTIVIDAD,actividad);
+        return intent;
+    }
+
+    public static Intent getLaunchIntent(Context context,String id) {
+        Intent intent = new Intent(context, DetailsActividadActivity.class);
+        intent.putExtra(ACTIVITY_ACTIVIDAD_ID,id);
         return intent;
     }
 
@@ -58,7 +73,13 @@ public class DetailsActividadActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) // Habilitar up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
+        if (getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID)!=null){
+            //getActividad(getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID));
+            Log.d(TAG,getIntent().getStringExtra(ACTIVITY_ACTIVIDAD_ID));
+        }else {
+            actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
+            update();
+        }
 
         mTitulo=(TextView)findViewById(R.id.tvTituloActividad);
         mDia=(TextView)findViewById(R.id.tvDiaActividad);
@@ -76,7 +97,15 @@ public class DetailsActividadActivity extends AppCompatActivity {
         mCVDireccion=(CardView) findViewById(R.id.cvDireccionActividad);
         mCVLink=(CardView) findViewById(R.id.cvLinkActividad);
 
+        mFloatingActionButtonVideo=(FloatingActionButton) findViewById(R.id.floatingActionButtonVideoActividad);
+
+
         setTitle("Detalle actividad");
+
+
+    }
+
+    public void update(){
 
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
         SimpleDateFormat formatMes = new SimpleDateFormat("MMM");
@@ -91,12 +120,6 @@ public class DetailsActividadActivity extends AppCompatActivity {
         mFechaPublicacion.setText(format.format(actividad.getUpdate()));
         mDireccion.setText(actividad.getLugar());
         mLink.setText(actividad.getLink());
-
-        mCVDireccion=(CardView) findViewById(R.id.cvDireccionActividad);
-        mCVLink=(CardView) findViewById(R.id.cvLinkActividad);
-
-        mFloatingActionButtonVideo=(FloatingActionButton) findViewById(R.id.floatingActionButtonVideoActividad);
-
 
         if (actividad.getFoto()!=null){
             Glide.with(this).load(actividad.getFoto()).into(mFoto);
@@ -140,8 +163,9 @@ public class DetailsActividadActivity extends AppCompatActivity {
         }else {
             mCVLink.setVisibility(View.GONE);
         }
+    }
 
-
+    public void getActividad(String id){
 
     }
 }

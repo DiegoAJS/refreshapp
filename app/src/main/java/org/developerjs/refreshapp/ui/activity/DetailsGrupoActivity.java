@@ -25,6 +25,7 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
     public static final String TAG = DetailsGrupoActivity.class.getSimpleName();
 
     public static final String ACTIVITY_GRUPO = "DetailsGrupoActivity.grupo";
+    public static final String ACTIVITY_GRUPO_ID = "DetailsGrupoActivity.grupo.id";
 
     private TextView mNombre,mContenido;
     private ImageView mFoto,mCelular,mFacebook,mTwitter,mInstagram,mWhatsapp;
@@ -41,6 +42,12 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
     public static Intent getLaunchIntent(Context context,Grupo grupo) {
         Intent intent = new Intent(context, DetailsGrupoActivity.class);
         intent.putExtra(ACTIVITY_GRUPO,grupo);
+        return intent;
+    }
+
+    public static Intent getLaunchIntent(Context context,String id) {
+        Intent intent = new Intent(context, DetailsGrupoActivity.class);
+        intent.putExtra(ACTIVITY_GRUPO_ID,id);
         return intent;
     }
 
