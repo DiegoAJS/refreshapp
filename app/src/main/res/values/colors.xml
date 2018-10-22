@@ -4,5 +4,12 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <!-- Colors added -->
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackBlue">#282c34</color>
+    <color name="colorMuted">#afafaf</color>
+    <color name="colorMutedForte">#686868</color>
+    <color name="colorBlue">#3172bb</color>
+
 
 </resources>
