@@ -22,6 +22,16 @@ public class Grupo extends Item implements Serializable {
     public Grupo() {
     }
 
+    public Grupo(String foto, String nombre, String descripcion, String celular, Social social, Date create, Date update) {
+        this.foto = foto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.celular = celular;
+        this.social = social;
+        this.create = create;
+        this.update = update;
+    }
+
     public String getNombre() {
         return nombre;
     }

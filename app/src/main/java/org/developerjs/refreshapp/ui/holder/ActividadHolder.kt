@@ -19,12 +19,13 @@ class ActividadHolder (itemView: View, var listener: ItemClickListener):Recycler
     }
     fun bindActividad( actividad: Actividad?) {
         with(actividad!!) {
+            val formatDia = SimpleDateFormat("dd")
             val formatHora = SimpleDateFormat("HH:mm")
             val formatMes = SimpleDateFormat("MMM")
 
             itemView.tvByItemActividad.text = actividad.organizador
 
-            itemView.tvDiaItemActividad.text = actividad.fecha_actividad.day.toString()
+            itemView.tvDiaItemActividad.text = formatDia.format(actividad.fecha_actividad)
             itemView.tvMesItemActividad.text = formatMes.format(actividad.fecha_actividad)
             itemView.tvHoraItemActividad.text = formatHora.format(actividad.fecha_actividad)
             itemView.tvTitleItemActividad.text = actividad.titulo

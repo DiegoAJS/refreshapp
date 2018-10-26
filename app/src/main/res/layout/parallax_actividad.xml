@@ -1,60 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
-    android:layout_marginLeft="24dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/CardView.Light">
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:padding="16dp"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+style="@style/CardView.Light">
+
 
     <LinearLayout
-        android:id="@+id/llFechaActividad"
-        android:layout_width="64dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvTitleItemActividad"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvDiaActividad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="15"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvMesActividad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Oct"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvHoraActividad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="14:00"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvTituloActividad"
+        android:id="@+id/itemActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:textSize="32sp"
-        android:text="title"
-        android:textColor="#FFfFFF"
-        android:fontFamily="@font/poppinsbold"
-        android:layout_toEndOf="@+id/llFechaActividad"
-        android:layout_toRightOf="@+id/llFechaActividad"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120sp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDiaActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="15"
+                    android:textColor="#4e9cf5"
+                    android:textSize="50sp" />
+
+                <TextView
+                    android:id="@+id/tvMesActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsbold"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="OCT"
+                    android:textColor="@color/colorMuted"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvHoraActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsbold"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="15:30"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTitleActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="Conferencias de ReactJs "
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

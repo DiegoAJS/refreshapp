@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,7 +26,7 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
     public static final String TAG = DetailsNoticiaActivity.class.getSimpleName();
 
     public static final String ACTIVITY_NOTICIA = "DetailsNoticiaActivity.noticia";
-    public static final String ACTIVITY_NOTICIA_ID = "DetailsNoticiaActivity.noticia.id";
+
 
     private TextView mTitulo,mFuente,mContenido,mFechaPublicacion;
     private FloatingActionButton mFloatingActionButtonVideo;
@@ -47,16 +48,14 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent getLaunchIntent(Context context,String id) {
-        Intent intent = new Intent(context, DetailsNoticiaActivity.class);
-        intent.putExtra(ACTIVITY_NOTICIA,id);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
+
+        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        //notificationManagerCompat.cancelAll();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_noticia);
         setSupportActionBar(toolbar);
@@ -74,7 +73,8 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
 
         setTitle("Detalle Noticia");
 
-        getInit();
+        if(noticia!=null)
+            getInit();
         //Log.d(TAG,noticia.toString());
 
 

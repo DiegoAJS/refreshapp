@@ -3,6 +3,7 @@ package org.developerjs.refreshapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -25,7 +26,6 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
     public static final String TAG = DetailsGrupoActivity.class.getSimpleName();
 
     public static final String ACTIVITY_GRUPO = "DetailsGrupoActivity.grupo";
-    public static final String ACTIVITY_GRUPO_ID = "DetailsGrupoActivity.grupo.id";
 
     private TextView mNombre,mContenido;
     private ImageView mFoto,mCelular,mFacebook,mTwitter,mInstagram,mWhatsapp;
@@ -45,19 +45,19 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
         return intent;
     }
 
-    public static Intent getLaunchIntent(Context context,String id) {
-        Intent intent = new Intent(context, DetailsGrupoActivity.class);
-        intent.putExtra(ACTIVITY_GRUPO_ID,id);
-        return intent;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupo);
 
+        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        //notificationManagerCompat.cancelAll();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_grupo);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) // Habilitar up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -75,7 +75,28 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
 
         setTitle("Detalle del grupo");
 
+        if (grupo!=null)
+            getInit();
 
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ivFacebookGrupo:
+                IntentUtiles.intentWeb(context,linkFacebook);break;
+            case R.id.ivTwitterGrupo:
+                IntentUtiles.intentWeb(context,linkTwitter);break;
+            case R.id.ivInstagramGrupo:
+                IntentUtiles.intentWeb(context,linkInstagram);break;
+            case R.id.ivWhatsappGrupo:
+                IntentUtiles.intentWeb(context,linkWhatsapp);break;
+
+        }
+    }
+    public void getInit(){
         mNombre.setText(grupo.getNombre());
         mContenido.setText(grupo.getDescripcion());
 
@@ -122,21 +143,6 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
             mInstagram.setVisibility(View.GONE);
             mWhatsapp.setVisibility(View.GONE);
         }
-
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ivFacebookGrupo:
-                IntentUtiles.intentWeb(context,linkFacebook);break;
-            case R.id.ivTwitterGrupo:
-                IntentUtiles.intentWeb(context,linkTwitter);break;
-            case R.id.ivInstagramGrupo:
-                IntentUtiles.intentWeb(context,linkInstagram);break;
-            case R.id.ivWhatsappGrupo:
-                IntentUtiles.intentWeb(context,linkWhatsapp);break;
-
-        }
-    }
 }

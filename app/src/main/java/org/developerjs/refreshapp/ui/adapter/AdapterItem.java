@@ -70,11 +70,11 @@ public class AdapterItem  extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         RecyclerView.ViewHolder viewHolder=null;
         switch (viewType){
             case TYPE_ACTIVIDAD:
-                viewHolder = new ActividadHolder(inflater.inflate(R.layout.item_actividad,parent,false),this);break;
+                viewHolder = new ActividadHolder(inflater.inflate(R.layout.item_activity,parent,false),this);break;
             case TYPE_GRUPO:
                 viewHolder = new GrupoHolder(inflater.inflate(R.layout.item_grupo,parent,false),this);break;
             case TYPE_NOTICIA:
-                viewHolder = new NoticiaHolder(inflater.inflate(R.layout.item_noticia,parent,false),this);break;
+                viewHolder = new NoticiaHolder(inflater.inflate(R.layout.item_feed,parent,false),this);break;
             case TYPE_ITEM_FIRST:
                 viewHolder = new ItemFirstHolder(inflater.inflate(R.layout.item_first,parent,false),this);break;
             case TYPE_FOOTER:

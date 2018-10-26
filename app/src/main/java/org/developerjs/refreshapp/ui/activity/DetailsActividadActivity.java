@@ -3,7 +3,10 @@ package org.developerjs.refreshapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.developerjs.refreshapp.R;
+import org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService;
 import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.ui.dialog.ZoomDialog;
 import org.developerjs.refreshapp.util.IntentUtiles;
@@ -63,6 +67,9 @@ public class DetailsActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividad);
 
+        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        //notificationManagerCompat.cancelAll();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actividad);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) // Habilitar up button
@@ -70,7 +77,7 @@ public class DetailsActividadActivity extends AppCompatActivity {
 
         actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
 
-        mTitulo=(TextView)findViewById(R.id.tvTituloActividad);
+        mTitulo=(TextView)findViewById(R.id.tvTitleActividad);
         mDia=(TextView)findViewById(R.id.tvDiaActividad);
         mMes=(TextView)findViewById(R.id.tvMesActividad);
         mHora=(TextView)findViewById(R.id.tvHoraActividad);
@@ -89,20 +96,42 @@ public class DetailsActividadActivity extends AppCompatActivity {
         mFloatingActionButtonVideo=(FloatingActionButton) findViewById(R.id.floatingActionButtonVideoActividad);
 
 
-        setTitle("Detalle actividad");
 
-        update();
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapser);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_actividad);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(actividad.getTitulo());
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
+
+        if(actividad!=null)
+            update();
 
     }
 
     public void update(){
 
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
+        SimpleDateFormat formatDia = new SimpleDateFormat("dd");
         SimpleDateFormat formatMes = new SimpleDateFormat("MMM");
         SimpleDateFormat formatHora = new SimpleDateFormat("HH:mm");
 
         mTitulo.setText(actividad.getTitulo());
-        mDia.setText(String.valueOf(actividad.getFecha_actividad().getDay()));
+        mDia.setText(formatDia.format(actividad.getFecha_actividad()));
         mMes.setText(formatMes.format(actividad.getFecha_actividad()));
         mHora.setText(formatHora.format(actividad.getFecha_actividad()));
         mOrganizador.setText(actividad.getOrganizador());

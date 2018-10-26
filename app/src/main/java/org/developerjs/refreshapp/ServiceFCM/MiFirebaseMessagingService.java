@@ -18,10 +18,12 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
+import org.developerjs.refreshapp.Aplicacion;
 import org.developerjs.refreshapp.MainActivity;
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.pojo.Grupo;
+import org.developerjs.refreshapp.pojo.Item;
 import org.developerjs.refreshapp.pojo.Noticia;
 import org.developerjs.refreshapp.ui.activity.DetailsActividadActivity;
 import org.developerjs.refreshapp.ui.activity.DetailsGrupoActivity;
@@ -43,8 +45,8 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = "NOTICIAS_Servicio";
 
     private PendingIntent pendingIntent;
-    private final static String CHANNEL_ID = "NOTIFICACION";
-    private final static int NOTIFICACION_ID = 0;
+    public final static String CHANNEL_ID = "NOTIFICACION_REFRESHAPP";
+    public final static int NOTIFICACION_ID = 1001;
 
     private String type;
     private String id;
@@ -72,20 +74,21 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
             type=remoteMessage.getData().get("type");
             id=remoteMessage.getData().get("id");
 
-            /*Actividad actividad = new Actividad();
-            actividad.setContenido("contenido x");
-            actividad.setTitulo("titulo x");
-            actividad.setCreate(new Date());
-            actividad.setUpdate(new Date());
-            actividad.setOrganizador("organiza x");
-            actividad.setFecha_actividad(new Date());
-            actividad.setLugar("en algun lugar");
-            actividad.setLink("www.face.com");*/
-
-            //setPendingIntentActividad(actividad);
-            //createNotificationChannel();
-            //createNotification();
             getObject();
+            /*if(type.equals("actividades")){
+                setPendingIntentActividad();
+                createNotificationChannel();
+                createNotification();
+            }else if(type.equals("grupos")){
+
+                setPendingIntentGrupo();
+                createNotificationChannel();
+                createNotification();
+            }else if(type.equals("noticias")){
+                setPendingIntentNoticia();
+                createNotificationChannel();
+                createNotification();
+            }*/
         }
     }
 
@@ -98,9 +101,27 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+    private void setPendingIntentGrupo(Grupo grupo){
+        Intent intent = new Intent(this, DetailsGrupoActivity.class);
+        intent.putExtra(DetailsGrupoActivity.ACTIVITY_GRUPO,grupo);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(DetailsGrupoActivity.class);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void setPendingIntentNoticia(Noticia noticia){
+        Intent intent = new Intent(this, DetailsNoticiaActivity.class);
+        intent.putExtra(DetailsNoticiaActivity.ACTIVITY_NOTICIA,noticia);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(DetailsNoticiaActivity.class);
+        stackBuilder.addNextIntent(intent);
+        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "Noticacion";
+            CharSequence name = "Noticacion_App";
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
@@ -108,39 +129,45 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void createNotification(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(title);
         builder.setContentText(body);
-        builder.setColor(Color.BLUE);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.MAGENTA, 1000, 1000);
         builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
         builder.setDefaults(Notification.DEFAULT_SOUND);
 
         builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Aplicacion.getInstance());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
 
     private void getObject(){
 
         DocumentReference docRef = db.collection(type).document(id);
+
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(type.equals("actividades")){
-                    Actividad actividad= documentSnapshot.toObject(Actividad.class);
+                    Actividad actividad = documentSnapshot.toObject(Actividad.class);
                     setPendingIntentActividad(actividad);
                     createNotificationChannel();
                     createNotification();
                 }else if(type.equals("grupos")){
-                    Grupo grupo= documentSnapshot.toObject(Grupo.class);
+                    Item item = documentSnapshot.toObject(Grupo.class);
+                    setPendingIntentGrupo((Grupo) item);
+                    createNotificationChannel();
+                    createNotification();
                 }else if(type.equals("noticias")){
-                    Noticia noticia= documentSnapshot.toObject(Noticia.class);
+                    Noticia noticia = documentSnapshot.toObject(Noticia.class);
+                    setPendingIntentNoticia(noticia);
+                    createNotificationChannel();
+                    createNotification();
                 }
-
             }
         });
 
