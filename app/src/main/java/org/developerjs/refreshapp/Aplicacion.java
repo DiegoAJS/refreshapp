@@ -1,6 +1,6 @@
 package org.developerjs.refreshapp;
 
-import android.content.Context;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Aplicacion extends  android.app.Application {
 
@@ -10,6 +10,7 @@ public class Aplicacion extends  android.app.Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        FirebaseMessaging.getInstance();
     }
 
     public static synchronized Aplicacion getInstance() {

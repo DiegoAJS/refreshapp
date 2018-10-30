@@ -21,6 +21,8 @@ import org.developerjs.refreshapp.util.IntentUtiles;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import static org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService.ID_NOTIFICATION_GRUPO;
+
 public class DetailsGrupoActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = DetailsGrupoActivity.class.getSimpleName();
@@ -52,14 +54,11 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupo);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.cancel(ID_NOTIFICATION_GRUPO);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_grupo);
         setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) // Habilitar up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         grupo = (Grupo) getIntent().getSerializableExtra(ACTIVITY_GRUPO);
 
@@ -77,8 +76,6 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
 
         if (grupo!=null)
             getInit();
-
-
 
     }
 

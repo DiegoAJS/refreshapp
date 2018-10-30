@@ -44,9 +44,15 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     public static final String TAG = "NOTICIAS_Servicio";
 
-    private PendingIntent pendingIntent;
+    private PendingIntent pendingIntentActividad;
+    private PendingIntent pendingIntentGrupo;
+    private PendingIntent pendingIntentNoticia;
+
     public final static String CHANNEL_ID = "NOTIFICACION_REFRESHAPP";
-    public final static int NOTIFICACION_ID = 1001;
+
+    public static final int ID_NOTIFICATION_ACTIVIDAD   = 10001;
+    public static final int ID_NOTIFICATION_GRUPO       = 10002;
+    public static final int ID_NOTIFICATION_NOTICIA     = 10003;
 
     private String type;
     private String id;
@@ -75,20 +81,6 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
             id=remoteMessage.getData().get("id");
 
             getObject();
-            /*if(type.equals("actividades")){
-                setPendingIntentActividad();
-                createNotificationChannel();
-                createNotification();
-            }else if(type.equals("grupos")){
-
-                setPendingIntentGrupo();
-                createNotificationChannel();
-                createNotification();
-            }else if(type.equals("noticias")){
-                setPendingIntentNoticia();
-                createNotificationChannel();
-                createNotification();
-            }*/
         }
     }
 
@@ -98,7 +90,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsActividadActivity.class);
         stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentActividad = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void setPendingIntentGrupo(Grupo grupo){
@@ -107,7 +99,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsGrupoActivity.class);
         stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentGrupo = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void setPendingIntentNoticia(Noticia noticia){
@@ -116,7 +108,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsNoticiaActivity.class);
         stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentNoticia = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void createNotificationChannel(){
@@ -128,7 +120,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(){
+    private void createNotification(int id,PendingIntent pendingIntent){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(title);
@@ -139,10 +131,10 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         builder.setDefaults(Notification.DEFAULT_SOUND);
 
         builder.setContentIntent(pendingIntent);
-        builder.setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Aplicacion.getInstance());
-        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(id, builder.build());
+
     }
 
     private void getObject(){
@@ -156,20 +148,20 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
                     Actividad actividad = documentSnapshot.toObject(Actividad.class);
                     setPendingIntentActividad(actividad);
                     createNotificationChannel();
-                    createNotification();
+                    createNotification(ID_NOTIFICATION_ACTIVIDAD,pendingIntentActividad);
                 }else if(type.equals("grupos")){
                     Item item = documentSnapshot.toObject(Grupo.class);
                     setPendingIntentGrupo((Grupo) item);
                     createNotificationChannel();
-                    createNotification();
+                    createNotification(ID_NOTIFICATION_GRUPO,pendingIntentGrupo);
                 }else if(type.equals("noticias")){
                     Noticia noticia = documentSnapshot.toObject(Noticia.class);
                     setPendingIntentNoticia(noticia);
                     createNotificationChannel();
-                    createNotification();
+                    createNotification(ID_NOTIFICATION_NOTICIA,pendingIntentNoticia);
+                    //notificacionFCM();
                 }
             }
         });
-
     }
 }

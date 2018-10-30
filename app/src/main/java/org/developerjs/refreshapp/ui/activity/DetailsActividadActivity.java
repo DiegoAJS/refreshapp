@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.developerjs.refreshapp.R;
-import org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService;
+import static org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService.ID_NOTIFICATION_ACTIVIDAD;
 import org.developerjs.refreshapp.pojo.Actividad;
 import org.developerjs.refreshapp.ui.dialog.ZoomDialog;
 import org.developerjs.refreshapp.util.IntentUtiles;
@@ -36,7 +36,6 @@ public class DetailsActividadActivity extends AppCompatActivity {
     public static final String TAG = DetailsActividadActivity.class.getSimpleName();
 
     public static final String ACTIVITY_ACTIVIDAD           = "DetailsActividadActivity.actividad";
-    public static final String ACTIVITY_ACTIVIDAD_ID        = "DetailsActividadActivity.actividad.id";
 
     private TextView mTitulo,mDia,mMes,mHora, mContenido,mDireccion,mLink,mFechaPublicacion,mOrganizador;
     private ImageView mFoto;
@@ -67,13 +66,11 @@ public class DetailsActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividad);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.cancel(ID_NOTIFICATION_ACTIVIDAD);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actividad);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) // Habilitar up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         actividad=(Actividad) getIntent().getSerializableExtra(ACTIVITY_ACTIVIDAD);
 

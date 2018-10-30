@@ -21,6 +21,8 @@ import org.developerjs.refreshapp.util.IntentUtiles;
 
 import java.text.SimpleDateFormat;
 
+import static org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService.ID_NOTIFICATION_NOTICIA;
+
 public class DetailsNoticiaActivity extends AppCompatActivity {
 
     public static final String TAG = DetailsNoticiaActivity.class.getSimpleName();
@@ -54,13 +56,11 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.cancel(ID_NOTIFICATION_NOTICIA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_noticia);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) // Habilitar up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         noticia = (Noticia) getIntent().getSerializableExtra(ACTIVITY_NOTICIA);
 
