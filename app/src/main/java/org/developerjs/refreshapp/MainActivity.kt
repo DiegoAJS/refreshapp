@@ -48,9 +48,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar_main)
 
-        val notificationManagerCompat = NotificationManagerCompat.from(Aplicacion.getInstance())
-        notificationManagerCompat.cancelAll()
-
         pagerAdapter = AdapterFragments(supportFragmentManager)
         pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_NOTICIA))
         pagerAdapter.addFragment(GenericFargment.newInstance(GenericFargment.FRAGMENT_ACTIVIDAD))

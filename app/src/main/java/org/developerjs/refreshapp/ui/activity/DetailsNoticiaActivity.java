@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.developerjs.refreshapp.Aplicacion;
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.pojo.Noticia;
 import org.developerjs.refreshapp.ui.dialog.ZoomDialog;
@@ -54,8 +55,8 @@ public class DetailsNoticiaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Aplicacion.getInstance());
+        notificationManagerCompat.cancelAll();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_noticia);
         setSupportActionBar(toolbar);

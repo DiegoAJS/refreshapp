@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.developerjs.refreshapp.Aplicacion;
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.interfaces.ItemClickListener;
 import org.developerjs.refreshapp.pojo.Grupo;
@@ -51,9 +52,6 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupo);
-
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_grupo);
         setSupportActionBar(toolbar);

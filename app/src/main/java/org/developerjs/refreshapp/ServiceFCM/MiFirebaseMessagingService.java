@@ -45,8 +45,17 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = "NOTICIAS_Servicio";
 
     private PendingIntent pendingIntent;
-    public final static String CHANNEL_ID = "NOTIFICACION_REFRESHAPP";
-    public final static int NOTIFICACION_ID = 1001;
+    public final static String ID_CHANNEL           ="NOTIFICACION_APP";
+    //public final static String ID_CHANNEL_GRUPO     = "NOTIFICACION_GRUPO";
+    //public final static String ID_CHANNEL_NOTICIA   = "NOTIFICACION_NOTICIA";
+
+    public static final String ACTIVITY_ACTIVIDAD           = "DetailsActividadActivity.actividad";
+    public static final String ACTIVITY_GRUPO               = "DetailsGrupoActivity.grupo";
+    public static final String ACTIVITY_NOTICIA             = "DetailsNoticiaActivity.noticia";
+
+    public static final int ID_NOTIFICATION_ACTIVIDAD   = 10001;
+    public static final int ID_NOTIFICATION_GRUPO       = 10002;
+    public static final int ID_NOTIFICATION_NOTICIA     = 10003;
 
     private String type;
     private String id;
@@ -111,25 +120,44 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void setPendingIntentNoticia(Noticia noticia){
-        Intent intent = new Intent(this, DetailsNoticiaActivity.class);
-        intent.putExtra(DetailsNoticiaActivity.ACTIVITY_NOTICIA,noticia);
+
+        /*Intent intent = new Intent(this, DetailsNoticiaActivity.class);
+        intent.putExtra(ACTIVITY_NOTICIA,noticia);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsNoticiaActivity.class);
         stackBuilder.addNextIntent(intent);
-        pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);*/
+
+        Intent intent = new Intent(this, DetailsNoticiaActivity.class);
+        intent.putExtra(ACTIVITY_NOTICIA,noticia);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
     }
 
-    private void createNotificationChannel(){
+    private void createNotificationChannel(String channel){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "Noticacion_App";
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            CharSequence name = "NoticacionApp";
+            String descripcion = "Noticacion";
+
+            /*NotificationChannel notificationChannel = new NotificationChannel(channel, name, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.createNotificationChannel(notificationChannel);*/
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel mChannel = new NotificationChannel(channel, name, importance);
+            mChannel.setDescription(descripcion);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(mChannel);
         }
     }
 
-    private void createNotification(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+    private void createNotification(int id, String channel){
+
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channel);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(title);
         builder.setContentText(body);
@@ -141,8 +169,23 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Aplicacion.getInstance());
-        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(id, builder.build());*/
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channel)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(id, mBuilder.build());
+
     }
 
     private void getObject(){
@@ -155,21 +198,56 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
                 if(type.equals("actividades")){
                     Actividad actividad = documentSnapshot.toObject(Actividad.class);
                     setPendingIntentActividad(actividad);
-                    createNotificationChannel();
-                    createNotification();
+                    createNotificationChannel(ID_CHANNEL);
+                    createNotification(ID_NOTIFICATION_ACTIVIDAD,ID_CHANNEL);
                 }else if(type.equals("grupos")){
                     Item item = documentSnapshot.toObject(Grupo.class);
                     setPendingIntentGrupo((Grupo) item);
-                    createNotificationChannel();
-                    createNotification();
+                    createNotificationChannel(ID_CHANNEL);
+                    createNotification(ID_NOTIFICATION_GRUPO,ID_CHANNEL);
                 }else if(type.equals("noticias")){
                     Noticia noticia = documentSnapshot.toObject(Noticia.class);
                     setPendingIntentNoticia(noticia);
-                    createNotificationChannel();
-                    createNotification();
+                    createNotificationChannel(ID_CHANNEL);
+                    createNotification(ID_NOTIFICATION_NOTICIA,ID_CHANNEL);
+                    //notificacionNoticia(noticia);
                 }
             }
         });
 
+    }
+
+
+    public void notificacionNoticia(Noticia noticia){
+
+        Intent intent = new Intent(this, DetailsNoticiaActivity.class);
+        intent.putExtra(ACTIVITY_NOTICIA,noticia);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        String channelId = getString(R.string.default_notification_channel_id);
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

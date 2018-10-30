@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.developerjs.refreshapp.Aplicacion;
 import org.developerjs.refreshapp.R;
 import org.developerjs.refreshapp.ServiceFCM.MiFirebaseMessagingService;
 import org.developerjs.refreshapp.pojo.Actividad;
@@ -36,7 +37,7 @@ public class DetailsActividadActivity extends AppCompatActivity {
     public static final String TAG = DetailsActividadActivity.class.getSimpleName();
 
     public static final String ACTIVITY_ACTIVIDAD           = "DetailsActividadActivity.actividad";
-    public static final String ACTIVITY_ACTIVIDAD_ID        = "DetailsActividadActivity.actividad.id";
+
 
     private TextView mTitulo,mDia,mMes,mHora, mContenido,mDireccion,mLink,mFechaPublicacion,mOrganizador;
     private ImageView mFoto;
@@ -67,8 +68,6 @@ public class DetailsActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividad);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        //notificationManagerCompat.cancelAll();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actividad);
         setSupportActionBar(toolbar);
