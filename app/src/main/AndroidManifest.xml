@@ -3,6 +3,7 @@
     package="org.developerjs.refreshapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -31,9 +32,11 @@
         <activity android:name=".ui.activity.DetailsActividadActivity" />
 
         <service
-            android:name=".ServiceFCM.MiFirebaseMessagingService">
+            android:name=".ServiceFCM.MiFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
 

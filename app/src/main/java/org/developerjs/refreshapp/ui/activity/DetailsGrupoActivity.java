@@ -54,8 +54,8 @@ public class DetailsGrupoActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupo);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.cancel(ID_NOTIFICATION_GRUPO);
+//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+//        notificationManagerCompat.cancel(ID_NOTIFICATION_GRUPO);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_grupo);
         setSupportActionBar(toolbar);

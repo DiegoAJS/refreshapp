@@ -50,9 +50,9 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     public final static String CHANNEL_ID = "NOTIFICACION_REFRESHAPP";
 
-    public static final int ID_NOTIFICATION_ACTIVIDAD   = 10001;
-    public static final int ID_NOTIFICATION_GRUPO       = 10002;
-    public static final int ID_NOTIFICATION_NOTICIA     = 10003;
+    public static final int ID_NOTIFICATION_ACTIVIDAD = 10001;
+    public static final int ID_NOTIFICATION_GRUPO = 10002;
+    public static final int ID_NOTIFICATION_NOTICIA = 10003;
 
     private String type;
     private String id;
@@ -69,50 +69,51 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Mensaje recibido de: " + from);
 
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getTitle()+", "+remoteMessage.getNotification().getBody());
-            title   =remoteMessage.getNotification().getTitle();
-            body    =remoteMessage.getNotification().getBody();
+            Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getTitle() + ", " + remoteMessage.getNotification().getBody());
+            title = remoteMessage.getNotification().getTitle();
+            body = remoteMessage.getNotification().getBody();
         }
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Data: " + remoteMessage.getData());
 
-            type=remoteMessage.getData().get("type");
-            id=remoteMessage.getData().get("id");
+            type = remoteMessage.getData().get("type");
+            id = remoteMessage.getData().get("id");
 
             getObject();
         }
     }
 
-    private void setPendingIntentActividad(Actividad actividad){
+    private void setPendingIntentActividad(Actividad actividad) {
         Intent intent = new Intent(this, DetailsActividadActivity.class);
-        intent.putExtra(DetailsActividadActivity.ACTIVITY_ACTIVIDAD,actividad);
+        intent.putExtra(DetailsActividadActivity.ACTIVITY_ACTIVIDAD, actividad);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsActividadActivity.class);
         stackBuilder.addNextIntent(intent);
         pendingIntentActividad = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void setPendingIntentGrupo(Grupo grupo){
+    private void setPendingIntentGrupo(Grupo grupo) {
         Intent intent = new Intent(this, DetailsGrupoActivity.class);
-        intent.putExtra(DetailsGrupoActivity.ACTIVITY_GRUPO,grupo);
+        intent.putExtra(DetailsGrupoActivity.ACTIVITY_GRUPO, grupo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsGrupoActivity.class);
         stackBuilder.addNextIntent(intent);
-        pendingIntentGrupo = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntentGrupo = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
     }
 
-    private void setPendingIntentNoticia(Noticia noticia){
+    private void setPendingIntentNoticia(Noticia noticia) {
         Intent intent = new Intent(this, DetailsNoticiaActivity.class);
-        intent.putExtra(DetailsNoticiaActivity.ACTIVITY_NOTICIA,noticia);
+        intent.putExtra(DetailsNoticiaActivity.ACTIVITY_NOTICIA, noticia);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(DetailsNoticiaActivity.class);
         stackBuilder.addNextIntent(intent);
         pendingIntentNoticia = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Noticacion_App";
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -120,46 +121,46 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(int id,PendingIntent pendingIntent){
+    private void createNotification(int id, PendingIntent pendingIntent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(title);
         builder.setContentText(body);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.setLights(Color.MAGENTA, 1000, 1000);
-        builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
-        builder.setDefaults(Notification.DEFAULT_SOUND);
+        //builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//        builder.setLights(Color.MAGENTA, 1000, 1000);
+//        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+//        builder.setDefaults(Notification.DEFAULT_SOUND);
 
         builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.notify(id, builder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(id, builder.build());
 
     }
 
-    private void getObject(){
+    private void getObject() {
 
         DocumentReference docRef = db.collection(type).document(id);
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(type.equals("actividades")){
+                if (type.equals("actividades")) {
                     Actividad actividad = documentSnapshot.toObject(Actividad.class);
                     setPendingIntentActividad(actividad);
                     createNotificationChannel();
-                    createNotification(ID_NOTIFICATION_ACTIVIDAD,pendingIntentActividad);
-                }else if(type.equals("grupos")){
+                    createNotification(ID_NOTIFICATION_ACTIVIDAD, pendingIntentActividad);
+                } else if (type.equals("grupos")) {
                     Item item = documentSnapshot.toObject(Grupo.class);
                     setPendingIntentGrupo((Grupo) item);
                     createNotificationChannel();
-                    createNotification(ID_NOTIFICATION_GRUPO,pendingIntentGrupo);
-                }else if(type.equals("noticias")){
+                    createNotification(ID_NOTIFICATION_GRUPO, pendingIntentGrupo);
+                } else if (type.equals("noticias")) {
                     Noticia noticia = documentSnapshot.toObject(Noticia.class);
                     setPendingIntentNoticia(noticia);
                     createNotificationChannel();
-                    createNotification(ID_NOTIFICATION_NOTICIA,pendingIntentNoticia);
-                    //notificacionFCM();
+                    createNotification(ID_NOTIFICATION_NOTICIA, pendingIntentNoticia);
                 }
             }
         });
